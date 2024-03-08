@@ -28,43 +28,46 @@ int targetColumn;
 
 
 int main(){
-    //Creamos todas las cartas y las mandamos a barajear.
+    //Creamos y barajamos cartas
     cards = creator.createCards();
     shuffler.shuffleCards(cards);
     delete cards;
     
-    //Obtenemos las cartas organizadas dentro de sus respectivas estructuras.
+    //colocar cartas en las estructuras
     queue = shuffler.getQueue();
     principalStacks = shuffler.getPrincipalStacks();
     secondaryStacks = shuffler.getSecondaryStacks();
        
-    //Enviamos a imprimir la configuracion inicial.
+    //CONFIGURACION INICIAL
     printer.print(queue, stack, principalStacks, secondaryStacks);
 
     try{
-        //Ingresamos al menu del juego.
+        //MENU
         while(option != 5){
-            cout<< "\nSOLITARIO" <<endl;
-            cout<< "1. Sacar carta de la cola." <<endl;
-            cout<< "2. Mover carta de la cola al tablero principal." <<endl;
-            cout<< "3. Mover Carta en el tablero principal." <<endl;  
-            cout<< "4. Mover carta del tablero principal a la pila." <<endl;
-            cout<< "5.Salir del Juego." <<endl;
+            cout<< "\nBIENVENIDO AL JUEGO SOLITARIO" <<endl;
+            cout<< "1. Voltear una carta de la cola de cartas comodin." <<endl;
+            cout<< "2. Sacar una carta de la cola y colocarla en el tablero principal." <<endl;
+            cout<< "3. Mover una carta entre las listas del tablero principal." <<endl;  
+            cout<< "4. Mover una carta del tablero principal a una pila." <<endl;
+            cout<< "5.Salir" <<endl;
             cout<< "Seleccione una opcion" <<endl;
             cin >> option;
+
             switch(option){
-                case 1:
+                case 1: //VOLTEANDO CARTA DE LA COLA
                     movementDriver.moveQueue(queue, stack);
                     printer.print(queue, stack, principalStacks, secondaryStacks);
                 break;
-                case 2:
+
+                case 2: //CARTA DE COLA AL TABLERO
                     cout<<"Ingrese la columna destino: ";
                     cin >> targetColumn; 
                     if(movementDriver.moveToPrincipalStack(stack, principalStacks, targetColumn)){
                         printer.print(queue, stack, principalStacks, secondaryStacks);
                     }
                 break;
-                case 3:
+
+                case 3: //CARTA ENTRE LAS LISTAS 
                     cout<<"Ingrese la columna origen: ";
                     cin >> selectedColumn;  
                     cout<<"Ingrese la columna destino: ";
@@ -74,19 +77,22 @@ int main(){
                         printer.print(queue, stack, principalStacks, secondaryStacks);
                     }
                 break;
-                case 4:
+                
+                case 4:     //DE LISTAS A PILA
                     cout<<"Ingrese la columna origen: ";
                     cin >> selectedColumn;  
                     if(movementDriver.moveToSecondaryStack(principalStacks, secondaryStacks, selectedColumn)){
                          printer.print(queue, stack, principalStacks, secondaryStacks);
                     }     
                 break;
-                case 5:
-                    cout<<"-------------------Terminando el Juego-------------------" <<endl;
+
+                case 5: //SALIR
+                    cout<<"FIN DE LA PARTIDA" <<endl;
                 break;
+
                 default:
                     printer.print(queue, stack, principalStacks, secondaryStacks);
-                    cout<<"La opcion seleccionada no es valida" <<endl;
+                    cout<<"Seleccione una opcion dentro de los valores del manu" <<endl;
                 break;     
             }
         }
