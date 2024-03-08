@@ -15,7 +15,7 @@ class Card {
         int getType();
         string getColor();
         bool isHide();
-        ~Card();
+        ~Card();  //destructor, garantizando que no hayan perdidas de memoria o fugas de recursos cuando se destruyan objetos de Cartas
     
     private:
         string value;
@@ -23,4 +23,7 @@ class Card {
         string color;
         bool hide;
 };
+//CASO: TEMPLATES
+
+
 #endif /* CARD_H */
