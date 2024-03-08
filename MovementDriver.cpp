@@ -6,39 +6,36 @@
 MovementDriver::MovementDriver() {
 }
 
-/*
- * Metodo encargado del movimiento entre la cola y la pila de 26 cartas.
- */
+//COLA Y PILA de cartas comodin
 void MovementDriver::moveQueue(Queue<Card*>* queue, Stack<Card*>* stack){
-    if(!queue->isEmpty()){
-        stack->push(queue->remove());
-        stack->peek()->setHide(false);      
+    if(!queue->isEmpty()){                  //si la cola no esta vacia
+        stack->push(queue->remove());       //retira la carta de la cola
+        stack->peek()->setHide(false);      //colocando en pila, la carta ya no esta oculta
     }
     else{
-        while(!stack->isEmpty()){
-            stack->peek()->setHide(true);
-            auxiliarStack->push(stack->pop());
+        while(!stack->isEmpty()){       //si la cola esta vacia
+            stack->peek()->setHide(true);   //oculta cartas
+            auxiliarStack->push(stack->pop());  //eliminamos carta de la cola, la colocamos en la auxiliar
         } 
         while(!auxiliarStack->isEmpty()){
-            queue->add(auxiliarStack->pop());
+            queue->add(auxiliarStack->pop());       //cuando se acaben cartas por voltear usamos add de Queue
         }
     }
 }
 
-/*
- * Metodo encargado del movimiento de cartas entre las 7 pilas principales.
- */
+//Movimineto entre las 7 double linked lists en pila
 bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* principalStacks,int selectedColumn, int targetColumn){
     if(selectedColumn > 7 || selectedColumn < 1 || targetColumn > 7 || targetColumn < 1){
-        std::cout<<"La columna indicada se encuentra fuera de los limites\n";
+        std::cout<<"LA COLUMNA NO EXISTE\n";
         this->print = false;
     }
+    
     else{   
-        //Obtener las pilas en las cuales se desea mover.
+        //Obtener las pilas en las cuales se desea mover
         this->selectedStack = principalStacks->get(selectedColumn-1);
         this->targetStack = principalStacks->get(targetColumn-1);        
         
-        //Reordenar las pilas para poder realizar acciones sobre ellas.
+        //Reordenar las pilas para poder realizar acciones sobre ellas
         while(!this->selectedStack->isEmpty()){
             this->auxiliarStack1->push(this->selectedStack->pop());
         }
@@ -46,26 +43,29 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
             this->auxiliarStack2->push(this->targetStack->pop());
         }
         
-        //Validar si alguna de las pilas se encuentra vacia.
+        //Validar si alguna de las pilas se encuentra vacia
         if(auxiliarStack1->isEmpty()){
-            std::cout<<"No existe ninguna carta en la columna seleccionada\n";
+            std::cout<<"NO HAY CARTAS EN ESTA SELECCION\n";
             print = false;
-        }
-        else if(auxiliarStack2->isEmpty()){
+        }  
+
+        else if(auxiliarStack2->isEmpty()){                         //SOLO PODEMOS COLOCAR K EN ESPACIOS VACIOS
             if(auxiliarStack1->peek()->getValue() == "K"){
                 this->moveCard(0);
             }
             else{
-                std::cout<<"No se permite insertar la carta seleccionada. Solamente K\n";
+                std::cout<<"SOLO PODEMOS COLOCAR K EN ESTOS ESPACIOS VACIOS\n";
                 print = false;
             }
         }
+
         else{
-            //Validar que no sean cartas del mismo color.
+            //Validar que no sean cartas del mismo color
             if(auxiliarStack1->peek()->getColor() == auxiliarStack2->peek()->getColor()){
-                std::cout<<"No se permite colocar dos cartas del mismo color seguidas en esta seccion\n";
+                std::cout<<"EN LISTAS NO PUEDEN SER COLOCADAS CARTAS CONSECUTIVAS DEL MISMO COLOR\n";
                 print = false;
             }
+
             else{
             //Validar el orden de las cartas
                 if(auxiliarStack2->peek()->getValue() == "K"){
@@ -73,7 +73,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                         this->moveCard(0);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -83,7 +83,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                         this->moveCard(0);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -93,7 +93,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                         this->moveCard(0);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -103,19 +103,19 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                         this->moveCard(0); 
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
 
                 else if(auxiliarStack2->peek()->getValue() == "A"){
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
 
                 else{
                     if(auxiliarStack1->peek()->getValue() == "A" || auxiliarStack1->peek()->getValue() == "K" || auxiliarStack1->peek()->getValue() == "Q" || auxiliarStack1->peek()->getValue() == "J"){
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                     else{
@@ -123,14 +123,14 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                            this->moveCard(0);
                         }
                         else{
-                            std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                            std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                             print = false;
                         }
                     }
                 }   
             } 
         }
-        //Reestablecer las pilas a su estado original    
+        //Reestablecer las pilas a su estado original   COLA PILA 
         while(!this->auxiliarStack1->isEmpty()){
             this->selectedStack->push(this->auxiliarStack1->pop());
         }
@@ -141,25 +141,25 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
     return print;
 }
 
-/*Metodo encargado de mover de las 7 pilas principales a alguna de las pilas secundarias.
- */
+//MOVIENDO DE LAS 7 PILAS (listas)  
 bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* principalStacks, DoublyLinkedList<Stack<Card*>*>* secondaryStacks, int selectedColumn){
     
-    //Obtener la pila en la cual se desea mover.
+    //Obtener la pila en la cual se desea mover
     this->selectedStack = principalStacks->get(selectedColumn-1);
     
-    //Reordena la pila para poder realizar acciones sobre ella.
+    //Reordena la pila para poder accionar encima
     while(!this->selectedStack->isEmpty()){
         this->auxiliarStack3->push(this->selectedStack->pop());
     }
     
-    //Validar la pila se encuentra vacia.
+    //Validar pila vacia
         if(auxiliarStack3->isEmpty()){
-            std::cout<<"No existe ninguna carta en la columna seleccionada\n";
+            std::cout<<"NO HAY CARTAS EN ESTA SELECCION\n";
             print = false;
         }
+
         else{
-            //Establecer a que pila se debe insertar la carta seleccionada.
+            //Establecer a que pila se debe insertar la carta seleccionada
             for(int i = 0; i < 4; i++){
                 if(auxiliarStack3->peek()->getType() == secondaryStacks->get(i)->peek()->getType()){
                     auxiliarStack4 = secondaryStacks->get(i);
@@ -172,7 +172,7 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                     this->moveCard(1);
                 }
                 else{
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
             }      
@@ -182,7 +182,7 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                     this->moveCard(1);
                 }
                 else{
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
             }
@@ -192,7 +192,7 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                     this->moveCard(1);
                 }
                 else{
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
             }
@@ -202,7 +202,7 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                     this->moveCard(1); 
                 }
                 else{
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
             }
@@ -212,19 +212,19 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                    this->moveCard(1); 
                }
                else{
-                   std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                   std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                    print = false;
                }
            }
             
             else if(auxiliarStack4->peek()->getValue() == "K"){
-                std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                 print = false;
             }
 
             else{
                 if(auxiliarStack3->peek()->getValue() == "A" || auxiliarStack3->peek()->getValue() == "K" || auxiliarStack3->peek()->getValue() == "Q" || auxiliarStack3->peek()->getValue() == "J"){
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
                 else{
@@ -232,30 +232,25 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
                        this->moveCard(1);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
             } 
         }
     
-    //Reestablecer la pila a su estado original    
+    //restableciendo pila cuando acaben las cartas 
     while(!this->auxiliarStack3->isEmpty()){
         this->selectedStack->push(this->auxiliarStack3->pop());
     }
     
-    
-   // auxiliarStack1->clear();
-    //auxiliarStack2->clear();
     return print;
 }
 
-/*
- * Metodo encargado de mover de la cola a una de las 7 pilas pricipales.
- */
+//MOVIMIENTO DE COLA A 7 LISTAS (EN PILA)
 bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* principalStacks, int targetColumn){
     if(targetColumn > 7 || targetColumn < 1){
-        std::cout<<"La columna indicada se encuentra fuera de los limites\n";
+        std::cout<<"LA COLUMNA NO EXISTE\n";
         this->print = false;
     }
     else{
@@ -270,7 +265,7 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
         
         //Validar si alguna de las pilas se encuentra vacia.
         if(auxiliarStack5->isEmpty()){
-            std::cout<<"No existe ninguna carta en la cola actualmente\n";
+            std::cout<<"NO HAY CARTAS EN ESTA SELECCION\n";
             print = false;
         }
         else if(auxiliarStack6->isEmpty()){
@@ -278,16 +273,17 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                 this->moveCard(2);
             }
             else{
-                std::cout<<"No se permite insertar la carta seleccionada. Solamente K\n";
+                std::cout<<"SOLO PODEMOS COLOCAR K EN ESPACIOS VACIOS\n";
                 print = false;
             }
         }
         else{
             //Validar que no sean cartas del mismo color.
             if(auxiliarStack5->peek()->getColor() == auxiliarStack6->peek()->getColor()){
-                std::cout<<"No se permite colocar dos cartas del mismo color seguidas en esta seccion\n";
+                std::cout<<"EN LISTAS NO PUEDEN SER COLOCADAS CARTAS CONSECUTIVAS DEL MISMO COLOR\n";
                 print = false;
             }
+
             else{
             //Validar el orden de las cartas
                 if(auxiliarStack6->peek()->getValue() == "K"){
@@ -295,7 +291,7 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                         this->moveCard(2);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -305,7 +301,7 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                         this->moveCard(2);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -315,7 +311,7 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                         this->moveCard(2);
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
@@ -325,19 +321,19 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                         this->moveCard(2); 
                     }
                     else{
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                 }
 
                 else if(auxiliarStack6->peek()->getValue() == "A"){
-                    std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                    std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
 
                 else{
                     if(auxiliarStack5->peek()->getValue() == "A" || auxiliarStack5->peek()->getValue() == "K" || auxiliarStack5->peek()->getValue() == "Q" || auxiliarStack5->peek()->getValue() == "J"){
-                        std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                        std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                     else{
@@ -345,14 +341,15 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
                            this->moveCard(2);
                         }
                         else{
-                            std::cout<<"No se puede mover la carta, no se cumple con el orden establecido.\n";
+                            std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                             print = false;
                         }
                     }
                 }   
             } 
         }
-        //Reestablecer las pilas a su estado original    
+
+        //restableciendo pila cuando acaben las cartas 
         while(!this->auxiliarStack6->isEmpty()){
             this->targetStack->push(this->auxiliarStack6->pop());
         }
@@ -361,9 +358,7 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
     return print;
 }
 
-/*
- * Metodo encargadp de realizar el movimiento de una carta entre dos pilas.
- */
+//MOVIMIENTO ENTRE COLAS (PILA)
 void MovementDriver::moveCard(int type){
     if(type == 0){
         auxiliarStack2->push(auxiliarStack1->pop());
