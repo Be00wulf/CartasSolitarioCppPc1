@@ -1,0 +1,238 @@
+#include <iostream>
+using namespace std;
+#include "Carta.h"
+#include "Mazo.h"
+#include "Barajador.h"
+// #include "ListaDoblementeEnlazada.h"
+// #include "Queue.h"
+// #include "MovementDriver.h"
+#include "Node.h"
+#include<stdlib.h> //new y delete
+
+
+int main() {
+                                                    //MOSTRANDO 4 pilas
+    Mazo mazo;
+    mazo.inicializar();
+    mazo.barajar();
+
+    Barajador barajador(mazo.obtenerCartas());
+    barajador.mostrarRevuelto();
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    // Crear cuatro pilas
+    Stack<Carta> pila1;
+    Stack<Carta> pila2;
+    Stack<Carta> pila3;
+    Stack<Carta> pila4;
+
+    // Apilar cartas en las pilas
+    for (int i = 0; i < 52; ++i) {
+        Carta carta = mazo.sacarCarta();
+
+        // Distribuir las cartas en las cuatro pilas
+        if (i < 13) {
+            pila1.push(carta);
+        } else if (i < 26) {
+            pila2.push(carta);
+        } else if (i < 39) {
+            pila3.push(carta);              /////   DESDE ABAJO 1 A 13 ...
+        } else {
+            pila4.push(carta);
+        }
+    }
+
+    // Mostrar las cartas en las pilas
+    std::cout << "Pila 1: ";
+    while (!pila1.isEmpty()) {
+        pila1.pop().mostrarCarta();
+    }
+    std::cout << std::endl;
+
+    std::cout << "Pila 2: ";
+    while (!pila2.isEmpty()) {
+        pila2.pop().mostrarCarta();
+    }
+    std::cout << std::endl;
+
+    std::cout << "Pila 3: ";
+    while (!pila3.isEmpty()) {
+        pila3.pop().mostrarCarta();
+    }
+    std::cout << std::endl;
+
+    std::cout << "Pila 4: ";
+    while (!pila4.isEmpty()) {
+        pila4.pop().mostrarCarta();
+    }
+    std::cout << std::endl;
+                
+
+
+
+
+
+
+
+                                                    //MOSTRANDO 7 LISTAS ListaDoblementeEnlazadas 
+        // Inicializar el mazo y barajar las cartas
+    Mazo mazo;
+    mazo.inicializar();
+    mazo.barajar();
+
+    // Crear un vector para almacenar las siete listas doblemente enlazadas
+    std::vector<DoublyLinkedList<Carta>> listas(7);
+
+    // Tomar 28 cartas del mazo barajado
+    for (int i = 0; i < 28; ++i) {
+        Carta carta = mazo.sacarCarta();
+
+        // Determinar en qué lista agregar la carta
+        int listaIndex;
+        if (i < 1) {
+            listaIndex = 0;
+        } else if (i < 3) {
+            listaIndex = 1;
+        } else if (i < 6) {
+            listaIndex = 2;
+        } else if (i < 10) {
+            listaIndex = 3;
+        } else if (i < 15) {
+            listaIndex = 4;
+        } else if (i < 21) {
+            listaIndex = 5;
+        } else {
+            listaIndex = 6;
+        }
+
+        // Agregar la carta a la lista correspondiente en el vector
+        listas[listaIndex].addLast(carta);
+    }
+
+    // Mostrar las cartas en las siete listas con toString
+    for (int i = 0; i < listas.size(); ++i) {
+        std::cout << "Lista con toString " << (i + 1) << ": "<< std::endl;
+        for (int j = 0; j < listas[i].size(); ++j) {
+            std::cout << "[ " << listas[i].get(j).toString() << " ]--";
+        }
+        std::cout << std::endl;
+        std::cout << std::endl;
+    }
+
+    // Mostrar las cartas en las siete listas    con mostrarCarta
+    std::cout << std::endl;
+    std::cout << std::endl;
+    for (int i = 0; i < listas.size(); ++i) {
+        std::cout << "Lista con mostrarCarta " << (i + 1) << ": "<< std::endl;
+        for (int j = 0; j < listas[i].size(); ++j) {
+            listas[i].get(j).mostrarCarta();
+        }
+        std::cout << std::endl;
+}
+
+
+
+
+
+                                                        //MOSTRANDO LA COLA
+    //barajando
+    Mazo mazo;
+    mazo.inicializar();
+    mazo.barajar();
+
+    Barajador barajador(mazo.obtenerCartas());
+    std::cout << "Cartas revueltas:" << std::endl;
+    barajador.mostrarRevuelto();
+
+    std::cout << "\n\n" << std::endl;
+
+    // Crear una cola para almacenar las cartas
+    Queue<Carta> cola;
+
+    // Llenar la cola con las primeras 24 cartas del mazo
+    for (int i = 0; i < 24; ++i) {
+        cola.add(mazo.sacarCarta());
+    }
+
+    // Mostrar cómo funciona la cola sacando y mostrando las cartas
+    std::cout << "Cartas en la cola:" << std::endl;
+    while (!cola.isEmpty()) {
+        Carta carta = cola.remove();
+        std::cout << "Valor de la carta: ";
+        carta.mostrarCarta();
+        std::cout << std::endl;
+    }
+
+
+
+
+
+
+                                                        // //MOSTRANDO NODO
+    // Mazo mazo;
+    // mazo.inicializar();
+    // mazo.barajar();
+
+    // //Node<Carta> nodo1 = new Node(mazo.sacarCarta());
+    // Node<Carta>* nodo1 = new Node<Carta>(mazo.sacarCarta());
+    // Node<Carta>* nodo2 = new Node<Carta>(mazo.sacarCarta());
+    // Node<Carta>* nodo3 = new Node<Carta>(mazo.sacarCarta());
+
+
+    // // Mostrar la carta del nodo
+    // std::cout << "Valor del nodo 1: ";
+    // nodo1->getValue().mostrarCarta();
+    // std::cout << std::endl;
+
+    // std::cout << "Valor del nodo 2: ";
+    // nodo2->getValue().mostrarCarta();
+    // std::cout << std::endl;
+
+    // std::cout << "Valor del nodo 3: ";
+    // nodo3->getValue().mostrarCarta();
+    // std::cout << std::endl;
+
+    // return 0;
+
+
+
+
+
+                                                        //MAZO LLENO/VACIO
+    // Mazo mazo;
+    // mazo.inicializar();
+    // if (mazo.estaVacio()) {
+    //     std::cout << "El mazo está vacío." << std::endl;
+    // } else {
+    //     std::cout << "El mazo no está vacío." << std::endl;
+    // }
+
+
+
+
+
+                                                        //MOSTRANDO MAZO REVUELTO                   
+    // Mazo mazo;
+    // mazo.inicializar();
+
+    // // Crear un barajador y revolver el mazo
+    // Barajador barajador(mazo.obtenerCartas());
+    // barajador.revolver();
+
+    // // Mostrar las cartas revueltas
+    // std::cout << "Cartas revueltas:" << std::endl;
+    // barajador.mostrarRevuelto();
+
+    //MOSTRANDO MAZO CREADO                 ^pa arriba mostrando pruebas
+        //Mazo mazo;
+        //const std::vector<Carta>& cartas = mazo.obtenerCartas();
+
+        // for (const Carta& carta : cartas) {
+        //     carta.mostrarCarta(); 
+        // }
+
+
+    //return 0;
+}

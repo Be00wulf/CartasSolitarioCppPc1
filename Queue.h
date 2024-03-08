@@ -25,104 +25,65 @@ Queue<T>::Queue(){
     this->end = NULL;
 }
 
-/*
- * Metodo encargado de insertar un nuevo elemento en el final  de la cola.
- * Crea un nuevo nodo con el valor que recibe como parametro y asigna el end al nodo creado.
- * Si las lista se encuentra vacia se asigna al header el nodo creado, de lo contario se 
- * establece el siguiente del nodo apuntado por el end hacia el nodo recien creado. 
- */
-
-
-template <typename T>
-void Queue<T>::add(T value){
-    Node<T>* node = new Node<T>(value);
-    if(this->isEmpty()){
-        this->header = node;
+//add       INSERTAR ELEMENTO AL FINAL DE LA COLA
+template <typename T>   
+void Queue<T>::add(T value){        
+    Node<T>* node = new Node<T>(value);     //se crea un nuevo nodo con el valor recibido como parámetro.
+    if(this->isEmpty()){                    //si la cola esta vacia
+        this->header = node;                //se asigna el nodo recién creado como el header de la cola.
     }
-    else{
-        end->setNext(node);
+    else{                                   //si la cola no esta vacia
+        end->setNext(node);                 //se establece el siguiente del nodo apuntado por "end" hacia el nodo recién creado
     }
-    this->end = node;
+    this->end = node;                       //Se actualiza el puntero de end para que apunte al nuevo nodo, ahora es el último elemento en la cola
 }
 
-/*
- * Metodo encargado de remover el elemento de la cima de la cola.
- *  1. crea un nuevo nodo que apunta hacia el header.
- *  2. Se establece el header al siguiente del nodo actual.
- *  3. Se almacena el valor contenido dentro del nodo actual.
- *  4. Se elimina el nodo actual. 
- *  5. Se retorna el valor almacenado.
- */
+//remove            QUITAR ELEMENTO DE LA CIMA DE LA COLA
 template <typename T>
-T Queue<T>::remove(){
-    if(!this->isEmptyQueue()){
-        Node<T>* node = this->header;
-        header = node->getNext();
-        T value = node->getValue();
-        delete node;
-        return value;
-    }
-    // else {
-    //     // Devuelve un valor predeterminado si la cola está vacía
-    //     // Aquí puedes devolver cualquier valor que tenga sentido para tu aplicación
-    //     return T(); // Devuelve un valor predeterminado para el tipo T
-    // }
-
-}
-
-/*
- * Metodo encargado de obtener y devolver el valor contenido en la cima de la cola.
- * Devuelve el valor contenido dentro del nodo que es apuntado por header.
- */
-template <typename T>
-T Queue<T>::peek() {
-    if(!this->isEmptyQueue()){
-        return header->getValue();
+T Queue<T>::remove(){                       
+    if(!this->isEmptyQueue()){                  //si la cola no esta vacia
+        Node<T>* node = this->header;           //creamos un nuevo nodo que apunta hacia el header actual
+        header = node->getNext();               //establecemos el header al siguiente del nodo actual
+        T value = node->getValue();             //almacenamos el valor contenido dentro del nodo actual
+        delete node;                            //eliminamos el nodo actual
+        return value;                           //retornamos el valor almacenado
     }
 }
 
-/*
- * Metodo encargado de validar si la cola se encuentra vacia.
- * Si el puntero header apunta a NULL devuelve true.
- */
+//peek                  TOMA Y DEVUELVE EL VALOR DE LA CIMA DE LA COLA
+template <typename T>
+T Queue<T>::peek() {                                           
+    if(!this->isEmptyQueue()){          //si la cola no esta vacia    
+        return header->getValue();      //devuelve el valor contenido dentro del nodo apuntado por header
+    }
+}
+
+// isEmpty                  REVISAMOS SI LA COLA ESTA VACIA
 template <typename T>
 bool Queue<T>::isEmpty(){
-    return this->header == NULL;
+    return this->header == NULL;        //true si el puntero header apunta a NULL -> la cola está vacía
 }
 
-/*
- * Metodo encargado de vaciar la cola.
- * Recorre cada nodo hasta que la cola se encuentre vacia, elimina cada nodo recorrido.
- */
+//clear                 VACIANDO LA COLA
 template <typename T>
 void Queue<T>::clear(){
-    Node<T>* node;
-    while(!this->isEmpty()){
-        node = this->header;
-        header = header->getNext();
-        delete node; 
+    Node<T>* node;                      //declaramos un puntero a nodo para almacenar temporalmente cada nodo que se eliminará
+    while(!this->isEmpty()){            //iterando hasta que la cola este vacia
+        node = this->header;            //asignamos el puntero actual del header al puntero del nodo temporal
+        header = header->getNext();     //actualizamos header para que apunte al siguiente nodo en la cola
+        delete node;                    //borrando nodo almacenado en el nodo temporal
     }
 }
 
-/*
- * Metodo encargado de verificar si la cola esta vacia y lanzar una excepcion.
- * Caso contario devuelve false.
- */
+//isEmptyQueue                      VERIFICANDO COLA VACIA Y ALERTANDO CON EXCEPCION
 template <typename T>
 bool Queue<T>::isEmptyQueue(){
-    if(this->isEmpty()){
-        std::string msg = "Error: La cola se encuentra vacia"; 
-        throw msg;
+    if(this->isEmpty()){                                                //verificando si la cola esta vacia
+        std::string msg = "Error: La cola se encuentra vacia";          //alerta si la cola esta vacia
+        throw msg;                                                      //EXCEPCION CON ALERTA
     }
-    return false;
+    return false;                                                       //LA COLA NO ESTA VACIA
 }
 
 
-
-
-
-
-
-
-
-#endif /* QUEUE_HPP */
+#endif /* QUEUE_H */

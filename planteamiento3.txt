@@ -1,0 +1,92 @@
+Clase carta 
+     Creamos las 52 cartas 
+     As hasta K, corazones, espadas y diamantes
+
+            Clase carta 
+            Creamos las características de las cartas 
+            Color, tipo, valor, Id (es más fácil revolver y ordenar cuando tienen un ID) y si está volteada 
+
+
+Clase mazo 
+     Recibe los parámetros de las cartas 
+     As hasta K, corazones, espadas y diamantes
+     En la carta:
+     Solo si es corazón o diamante es roja
+     Solo si es trébol o espada es negra
+     Total 52 cartas
+
+
+Clase barajador 
+      El barajador recibe las 52 cartas y las revuelve 
+      Tiene la función de dar carta a las estructuras 
+
+
+***Para las estructuras revisar la funcionalidad de si están vacías 
+
+CLASE NODO
+      definiendo la estructura del nodo con punteros 
+
+Clase cola
+      Recibe las cartas que sobran y las coloca en la primera  cola
+     La primera cola recibe las cartas sobrantes y las coloca volteadas 
+     La segunda cola recibirá las cartas de la primera cola una a una y al recibirla podrá ser visible,.solo de acá podrá sacar cartas el jugador 
+      Tiene la función que se puede sacar una carta de ahí de la segunda para la pila o para las listas
+      Tiene la función demostrar cuántas cartas hay en la 1ra cola 
+
+
+Clase lista doblemente enlazada
+     Recibe las cartas del barajador de forma ascendente en las 7 pilas, de 1 a 7 cartas, solo la última carta podrá ser visible 
+     "Tiene la función de que el jugador puede seleccionar desde donde desea mover las cartas a otra lista varias veces 
+
+
+Clase pila 
+       Esta solo recibe las cartas en un orden desde el As hasta la K de forma ordenada
+      Tiene la funcionalidad que también puede ser sacado el último elemento de la pila para colocarlo en las listas 
+      Puede solo recibir un K cualquiera en una pila vacía 
+
+Clase tablero 
+      Recibe las pilas, las colas y las listas para mostrarlas ordenadamente
+
+
+Clase jugador (?)
+      puede mover
+
+Funcionalidad siguiente o anterior movimiento 
+
+Clase main - menu
+      Muestra el tablero 
+      Muestra el menú 
+      Mover cartas entre listas 
+      Voltear  nueva  carta de la cola 
+      Mover carta de lista a pila 
+      Mover carta de cola a lista 
+      Mover carta de cola a pila 
+      Revisar siguiente o anterior movimiento
+
+
+
+
+      Clase lista doblemente enlazada
+Primero, crea 7 listas doblemente enlazadas en las cuales se iran almacenando las primeras 28 cartas del mazo y almacenar aun las cartas restantes
+
+Segundo, Recibe las cartas del barajador y las va colocando de forma ascendente en las 7 pilas, de 1 a 7 cartas, donde solo la última carta podrá ser visible inicialmente
+
+Tercero, se deben mostrar  como quedaron las 7 listas
+
+
+IMPORTANTE AL GIT
+podemos comenzar ddesde la terminal de VSC
+creamos un .gitignore dentro de los archivos donde estamos trabajando
+
+en la terminal: git init                  iniciamos git
+      git status                                archivos pendientes
+git add main.cpp                          agregando archivos individuales
+      git add .                                 agregando todos los archivos 
+      git commit -m " "                         agregando nota a la version
+git log                                   datos y fecha
+creamos un repositorio en github          
+git remote add origin https://github.com(...)    agregar direccion
+      git push origin master                    subimos version
+
+
+comentando funcionalidades en la cola

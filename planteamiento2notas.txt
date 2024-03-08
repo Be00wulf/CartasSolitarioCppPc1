@@ -1,0 +1,49 @@
+clase Carta, con archivos .cpp y .h
+aqui se crearan las 52 cartas desde el As hasta K, de treboles, corazones, espadas y diamantes
+
+estas cartas contaran con las propiedades de:
+valor (As, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K)
+color (N, R)
+tipo de carta, ya sea  treboles: E3, corazones: <3, espadas: !! o diamantes: <>
+saber si estaVolteada, verdadero o falso
+y establecer un ID a cada carta (inicia  desde el 0)
+
+7 <3 R (7 de corazones rojos)
+J <> R (J de diamantes rojos)
+3 E3 N (3 de treboles negros)
+9 !! N (9 de espadas negras)
+
+el ID y saber si estaVolteada serviran posteriormente para otras funcionalidades, por lo que no es necesario mostrar esa informacion
+
+REVISAR SI ESTA VACIA ALGUNA ESTRUCTURA
+
+
+TODOS LOS TEMPLATES DEBEN IR EN el .h
+    para que asi el linker lo pueda leer
+
+la separacion por organizacion queda a criterio
+
+
+NOTAS
+al usar templates 
+    https://www.educative.io/answers/why-can-templates-only-be-implemented-in-the-header-file-in-cpp
+    https://g.co/gemini/share/b73862cacdb5
+
+
+queue.h
+ template <typename T>
+T Queue<T>::remove(){
+    if(!this->isEmptyQueue()){
+        Node<T>* node = this->header;
+        header = node->getNext();
+        T value = node->getValue();
+        delete node;
+        return value;
+    }
+    // else {
+    //     // Devuelve un valor predeterminado si la cola está vacía
+    //     // Aquí puedes devolver cualquier valor que tenga sentido para tu aplicación
+    //     return T(); // Devuelve un valor predeterminado para el tipo T
+    // }
+
+}
