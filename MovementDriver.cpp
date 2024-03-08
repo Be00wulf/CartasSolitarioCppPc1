@@ -53,6 +53,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
             this->currentAmount++;
         }
 
+        //revisando carta seleccionada
         cout << "CARTA AUXILIAR --------------------" <<endl;
         cout << auxCard->getValue() << endl;
 
@@ -128,6 +129,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                 }
 
                 else{
+                    //stoi: para convertir una cadena que representa un número en formato de texto (string) en su equivalente numérico en formato entero (int)
                     if(auxCard->getValue() == "A" || auxCard->getValue() == "K" || auxCard->getValue() == "Q" || auxCard->getValue() == "J"){
                         std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
@@ -373,8 +375,8 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
 }
 
 //MOVIMIENTO ENTRE COLAS (PILA)
-void MovementDriver::moveCard(int type){
-    if(type == 0){
+void MovementDriver::moveCard(int type){        //type determina el tipo de movimiento que se realizara
+    if(type == 0){                              //movimiento entre las primeras dos pilas (auxiliarStack1 y auxiliarStack2).
         int counter = 0;
         Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
         while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {
@@ -383,7 +385,7 @@ void MovementDriver::moveCard(int type){
         }
 
         counter = 0;
-        while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {
+        while(!auxiliarMovementStack->isEmpty() && counter < this->currentAmount) {
             auxiliarStack2->push(auxiliarMovementStack->pop());
             counter++;
         }
@@ -392,17 +394,18 @@ void MovementDriver::moveCard(int type){
             auxiliarStack1->peek()->setHide(false);
         }
     }
-    else if(type == 1){
+    else if(type == 1){         //movimiento entre las pilas 3 y 4 (auxiliarStack3 y auxiliarStack4).       TYPE=1
         auxiliarStack4->push(auxiliarStack3->pop());
         if(!auxiliarStack3->isEmpty()){
             auxiliarStack3->peek()->setHide(false);
         }
     }
-    else{
+    else{                       //movimiento entre las pilas 5 y 6 (auxiliarStack5 y auxiliarStack6).
+    //si auxiliarStack5 no está vacía después del movimiento, se revela la carta superior (peek) de auxiliarStack5 estableciendo su estado de ocultamiento en false.
         auxiliarStack6->push(auxiliarStack5->pop());
         if(!auxiliarStack5->isEmpty()){
             auxiliarStack5->peek()->setHide(false);
         }
     }
-    this->print = true;
+    this->print = true;     //para indicar que se ha realizado un movimiento
 }

@@ -5,16 +5,18 @@
 
 Printer::Printer(){}
 
+//impresion del tablero completo.  pasando las referencias a la cola, la pila y la lista doblemente enlazada de pilas secundarias
 void Printer::print(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* principalStacks, DoublyLinkedList<Stack<Card*>*>* secondaryStacks){
-    this->printQueuesAndSecondaryStacks(queue, stack, secondaryStacks);
-    this->printPrincipalStacks(principalStacks);
-    for(int i = 0; i < 7; i++){
+    this->printQueuesAndSecondaryStacks(queue, stack, secondaryStacks);     //imprimiendo colas y pilas secundarias al inicio
+    this->printPrincipalStacks(principalStacks);        //imprimiendo liastas principales
+
+    for(int i = 0; i < 7; i++){                     //recorremos las listas
         switch(i){
-            case 0:
+            case 0:                  //asigna la pila principal correspondiente y auxiliar a las variables stack y auxiliarStack
                 stack = stack1;
-                auxiliarStack = auxiliarStack1;
-            break;
-            case 1:
+                auxiliarStack = auxiliarStack1;         //para los movimientos
+            break;                                      //actualiza el estado de las pilas principales al transferir 
+            case 1:                                     //cualquier carta de las pilas auxiliares de vuelta a las pilas principales
                 stack = stack2;
                 auxiliarStack = auxiliarStack2;
             break;
@@ -45,9 +47,10 @@ void Printer::print(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<S
     }
 }
 
-void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalStacks){
-    string image = "";
-    int row = 1;
+//7 liastas
+void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalStacks){   //doubly linked lists de stacks
+    string image = "";      //tablero
+    int row = 1;            //para recorrer las filas
     stack1 = principalStacks->get(0);
     stack2 = principalStacks->get(1);
     stack3 = principalStacks->get(2);
@@ -56,12 +59,13 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
     stack6 = principalStacks->get(5);
     stack7 = principalStacks->get(6);
 
+    //mientras hayan cartas en las listas principales
     while(!stack1->isEmpty() || !stack2->isEmpty() || !stack3->isEmpty() || !stack4->isEmpty() || !stack5->isEmpty() || !stack6->isEmpty() || !stack7->isEmpty()){ 
-       for(int i = 1; i < 6; i++){                      
-            for(int j = 0; j < 7; j++){
+       for(int i = 1; i < 6; i++){              //recorriendo la carta                  
+            for(int j = 0; j < 7; j++){         //recorrie las 7 columnas de las listas
                 switch(j){
                     case 0:
-                        stack = stack1;
+                        stack = stack1;                             //creamos stacks y sus auxiliares
                         auxiliarStack = auxiliarStack1;
                     break;
                     case 1:
@@ -90,42 +94,42 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                     break;
                 }
                          
-                if(!stack->isEmpty()){
-                    if(stack->peek()->isHide()){
+                if(!stack->isEmpty()){                  //pila vacia
+                    if(stack->peek()->isHide()){        //si la carta en la cima de la pila esta oculta
                         image = image + "  " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas  ->4->6->2    
-                    }
+                    }       //agregamos espacio "-" simbolizando la carta oculta
                  
-                    else{
-                        card = stack->peek();       
+                    else{                           //si la carta no esta oculta
+                        card = stack->peek();       //obtenemos la carta y luego mostramos sus valores
                         image = image + " " + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
                     }   
-                    if(i == 5){
-                        card = stack->pop();
-                        auxiliarStack->push(card);
+                    if(i == 5){                         //en el final de la carta
+                        card = stack->pop();            //extraemos la carta en la parte superior de la pila 
+                        auxiliarStack->push(card);      //se coloca en una pila aux para revisar movimientos del juego
                     }
                 }
                 else{
-                    image = image + "        ";   //9 espacios adentro de la carta     8
+                    image = image + "        ";   //9 espacios adentro de la carta     ->8 y
                 }
             }
             //VALOR R           
-            if(i == 1){    
+            if(i == 1){        //pos 1 dentro de la carta, luego imprimimos sus cartasel y numero de la fila
                 image = image + "  " + std::to_string(row) +  "\n"; //2      ->1  ->2   espacio entre la carta y la columna de numeros final
                 row++;
             }
-            else{      
-               image = image + "\n";
+            else{       
+               image = image + "\n";            // fila de cartas y salto de linea
             }     
         }         
     }
-    std::cout<<image ;      //3312
+    std::cout<<image ;      //3312          representacion completa de las cartas en el tablero
 
 }
 
-//  printQueuesAndSecondaryStacks           IMPRIMIENDO LAS COLAS
+//  printQueuesAndSecondaryStacks           punteros a los objetos  IMPRIMIENDO LAS COLAS PILAS SECUNDARIAS
 void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* secondaryStacks){
-    string img = "    1       2       3       4       5        6       7   \n";    
-    for(int i = 1; i < 6; i++){     //iterando en filas 5s
+    string img = "    1       2       3       4       5        6       7   \n";     //ENCABEZADO      
+    for(int i = 1; i < 6; i++){     //iterando en filas 5 superiores
         //Colas 3312
         for(int j = 0; j < 2; j++){         //iterando en las dos colas
             
@@ -136,28 +140,27 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
                     this->card = card;                              //asignando la carta creada como la carta actual
                 }
 
-                else{                               //      si la cola no esta vacia
+                else{                               //      si la cola no esta vacia`
                     if(queue->peek()->isHide()){    //si la carta sobre la cola esta oculta
                         //3312
-                        Card* card = new Card("-", 0, " ", true);   //creamos carta oculta
+                        Card* card = new Card("-", 0, " ", true);   //creamos nueva carta oculta para mostrarla en oculto
                         this->card = card;                          //asignamos la carta creada como la carta actual
                     }
-                    else{       //si la carta en la cima de la cola no está oculta
-                        card = queue->peek();                 //obtenemos la carta en la cima de la cola     
-                        //cant cards     
+                    else{       //si la carta en la cima de la cola no esta oculta
+                        card = queue->peek();                 //obtenemos la carta en la cima de la cola      
                         
                     }  
                 }
             }
 
-            //3312
+            //3312->y
             else{       // si es la segunda cola
                 if(stack->isEmpty()){       //pila vacia
                     Card* card = new Card(" ", 0, " ", true);       //creando cola vacia
                     this->card = card;                              //la carta creada es la carta actual
                 }
                 else{               //si la pila no esta vacia
-                    if(stack->peek()->isHide()){                        //teniendo oculta la carta en la cima de la pila
+                    if(stack->peek()->isHide()){                        //si esta oculta la carta en la cima de la pila
                         Card* card = new Card("-", 0, " ", true);       //creamos carta oculta
                         this->card = card;                              //la carta creada sera la actual
                     }
@@ -166,20 +169,20 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
                     }
                 }
             }
-            //3312   1   [2*]  ->1    SEPARACION DE LA PARED INICIAL 
+            //3312->y   1   [2*]  ->1    SEPARACION DE LA PARED INICIAL 
             img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero   
         }
-        //3312
+        //3312->y
         img = img + "          ";      //separando colas de pilas 7->14*->12->10*
         
-//Pilas secundarias PILAS
+//
         for(int j = 0; j < secondaryStacks->size(); j++){           
             card = secondaryStacks->get(j)->peek();             //obteniendo la carta de la cima de la pila secundaria actual
-            //3312
+            //3312 espacio entre cartas de las pilas ->y
             img = img  + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero    1*
         }
 
-        if(i == 1){                                     //agregando el indicador de las filas 0
+        if(i == 1){                                     //agregando el indicador de las filas pos s0
             img = img + "  0\n";
         }
         else{
@@ -189,7 +192,7 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
         }
 
     }
-    std::cout<<img;
+    std::cout<<img;             //imprimiendo la seccion de colas y pilas 
 }
 
 //createImage           VISUALIZANDO LA CARTA
