@@ -25,4 +25,4 @@ class Shuffler {
         DoublyLinkedList<Stack<Card*>*>* secondaryStacks = new DoublyLinkedList<Stack<Card*>*>;
         Queue<Card*>* queue = new Queue<Card*>;
 };
-#endif /* SHUFFLER_HPP */
+#endif /* SHUFFLER_H */

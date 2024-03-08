@@ -5,71 +5,51 @@
 
 Shuffler::Shuffler(){}
 
-/*
- * Metodo encargado de revolver las cartas.
- * Recibe como parametro un lista doblemente enlazada, la cual contiene las cartas en un orden especifico.
- *  1. Recorre la lista desde el inicio hasta el final de la mima. 
- *  2. Obtiene un numero aleatorio entre 0 y 51 y lo almacena en la variable randomNum.
- *  3. Obtiene la carta de la lista almacenada en el indice i y la almacena en la variable card.
- *  4. Remueve la carta almacenada en el indice i.
- *  5. Insertar la carta almacenada en la variable card en el indice de la lista determinado por la variable randomNum.
- */  
+//shuffleCards              REVOLVIENDO LAS CARTAS
 void Shuffler::shuffleCards(DoublyLinkedList<Card*>* cards){
-    srand((unsigned)time(NULL)); 
-    for(int i = 0; i < cards->size() - 4; i++){
-        this->randomNum = rand()%51+0;
-        card = cards->get(i);
-        cards->removeIndex(i);
-        cards->add(randomNum, card);
+    srand((unsigned)time(NULL));                        //semilla para generar números aleatorios basada en el tiempo actual TETRIS     *POR PROCESO?
+    for(int i = 0; i < cards->size() - 4; i++){         //lista de cartas
+        this->randomNum = rand()%51+0;                  //random entre 0 y 51, almacenado en randomNum
+        card = cards->get(i);                           //obtenemos carta de la lista y la almacenamos en cards
+        cards->removeIndex(i);                          //removiendo carta de la lista
+        cards->add(randomNum, card);                    //Inserta la carta de card en un índice aleatorio en la lista
     }
-    this->distributeQueues(cards);
-    this->distributeStacks(cards);
+    this->distributeQueues(cards);                      //cartas a las colas
+    this->distributeStacks(cards);                      //cartas a las listas
 }
 
-/*
- * Metodo encargado de insertar dentro de la lista doblemente enlazada queques dos colas.
- * En la  primera cola se insertan 24 cartas y por ultimo se inserta la cola dentro la lista doblemente enlazada.
- * La segunda cola se encuentra vacia y se inserta dentro de la lista doblemente enlazada.
- */
- 
+//distributeQueues                  INSERTANDO CARTAS EN LAS LISTAS, LOS SOBRANTES A UNA COLA, Y LUEGO ELIMINA DEL LISTADO DE CARTAS
 void Shuffler::distributeQueues(DoublyLinkedList<Card*>* cards){
     for(int i = 0; i < 24; i++){
-        queue->add(cards->getFirst());
-            cards->removeFirst();
+        queue->add(cards->getFirst());          //primera carta de la lista a la cola
+            cards->removeFirst();               //remueve la primera carta de la lista de cartas
     }    
 }
 
-/*
- * Metodo encargado de insertar dentro de las listas doblemente enlazadas principalStacks y secondaryStacks 7 y 4 pilas respectivamente.
- *  1. Crea 7 pilas, una en cada iteracion, dentro de cada pila inserta una cantidad j de cartas, cantidad que depende del valor actual del 
- *     contador i (se insertaran i cartas en cada iteracion). La carta que es insertada en la pila es removida de la lista. Finalmente inserta
- *     la pila dentro de la lista principalStacks.
- *  2. Crea 4 pilas, una en cada iteracion, dentro de cada pila inserta la ultima carta contenida dentro de la lista cards en cada iteracion.
- *     La carta que es insertada en la pila es removida de la lista. Finalmente inserta dentro de la lista secondaryStacks la pila recien creada.
- * 
- */
+//distributeStacks                  INSERTANDO EN LISTAS 7 y 4 pilas
 void Shuffler::distributeStacks(DoublyLinkedList<Card*>* cards){            
     //Creacion e insercion de las pilas principales.
     for(int i = 1; i < 8; i++){
-        Stack<Card*>* stack = new Stack<Card*>;
+        Stack<Card*>* stack = new Stack<Card*>;         //nueva pila
         for(int j = 0; j < i; j++){
-            stack->push(cards->getFirst());
-            cards->removeFirst();
-            if(j == 0){
-                stack->peek()->setHide(false);
+            stack->push(cards->getFirst());             //agrega la primera carta de la lista de cartas a la pila
+            cards->removeFirst();                       //remueve la primera carta de la lista de cartas
+            if(j == 0){             
+                stack->peek()->setHide(false);          //si es la primera carta en la pila debe mostrarse    
             }
         }
-        principalStacks->add(i-1, stack);
+        principalStacks->add(i-1, stack);               //agrega la pila a la lista
     }
     //Creacion e insercion de las pilas secundarias.
     for(int i = 0; i < 4; i++){
-        Stack<Card*>* stack = new Stack<Card*>;
-        stack->push(cards->getLast());
-        cards->removeLast();
-        secondaryStacks->addFirst(stack);
+        Stack<Card*>* stack = new Stack<Card*>;         //nueva pila
+        stack->push(cards->getLast());                  //agrega la ultima carta de la lista de cartas a la pila
+        cards->removeLast();                            //quita la ultima carta de la lista de cartas
+        secondaryStacks->addFirst(stack);               //agrega la pila a la lista
     }
 }
 
+//G
 DoublyLinkedList<Stack<Card*>*>* Shuffler::getPrincipalStacks(){
     return this->principalStacks;
 }
