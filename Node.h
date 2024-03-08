@@ -22,11 +22,9 @@ class Node{
             Node<T>* getPrevious();
             Node<T>* getNext();   
 };
-//TEMPLATES
+//CASO: TEMPLATES
 
-/*
- * Constructores de la clase.
- */
+//CONSTRUCTOR por defecto
 template <typename T>
 Node<T>::Node(){
     this->value = NULL;
@@ -34,6 +32,7 @@ Node<T>::Node(){
     this->next = NULL;
 }
 
+//CONSTRUCTOR INICIALIZADO
 template <typename T>
 Node<T>::Node(T value){
     this->value = value;
@@ -41,9 +40,7 @@ Node<T>::Node(T value){
     this->next = NULL;
 }
 
-/*
- * Setters de la clase.
- */
+//S
 template <typename T>
 void Node<T>::setValue(T value){
     this->value = value;
@@ -59,9 +56,7 @@ void Node<T>::setNext(Node<T>* next){
     this->next = next;
 }
 
-/*
- * Getters de la clase.
- */
+//G
 template <typename T>
 T Node<T>::getValue(){
     return this->value;
@@ -76,8 +71,6 @@ template <typename T>
 Node<T>* Node<T>::getNext(){
     return this->next;
 }
-
-
 
 
 #endif /* NODE_H */
