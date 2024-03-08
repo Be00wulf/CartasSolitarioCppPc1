@@ -79,10 +79,10 @@ void Queue<T>::clear(){
 template <typename T>
 bool Queue<T>::isEmptyQueue(){
     if(this->isEmpty()){                                                //verificando si la cola esta vacia
-        std::string msg = "Error: La cola se encuentra vacia";          //alerta si la cola esta vacia
+        std::string msg = "ADVERTENCIA: LA COLA ESTA VACIA";            //alerta si la cola esta vacia
         throw msg;                                                      //EXCEPCION CON ALERTA
     }
-    return false;                                                       //LA COLA NO ESTA VACIA
+    return false;                                                       //LA COLA NO ESTAVACIA
 }
 
 
