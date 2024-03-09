@@ -124,7 +124,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
 
 //  printQueuesAndSecondaryStacks           IMPRIMIENDO LAS COLAS
 void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* secondaryStacks){
-    string img = "    1       2         3       4          5       6       7   \n";    //de 2 a 3 se agregaron 2 espacios      de 4-5 3espacios 
+    string img = "    1       2         3       4         5        6       7   \n";    //de 2 a 3 se agregaron 2 espacios      de 4-5 3espacios 
     for(int i = 1; i < 6; i++){     //iterando en filas 5s
         //Colas 3312
         for(int j = 0; j < 2; j++){         //iterando en las dos colas
@@ -143,7 +143,9 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
                         this->card = card;                          //asignamos la carta creada como la carta actual
                     }
                     else{       //si la carta en la cima de la cola no está oculta
-                        card = queue->peek();                 //obtenemos la carta en la cima de la cola          
+                        card = queue->peek();                 //obtenemos la carta en la cima de la cola     
+                        //cant cards     
+                        
                     }  
                 }
             }
@@ -168,7 +170,7 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
             img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero
         }
         //3312
-        img = img + "              ";      //separando colas de pilas tiene[7] cambia a 14
+        img = img + "              ";      //separando colas de pilas 7->14
         
         //Pilas secundarias PILAS
         for(int j = 0; j < secondaryStacks->size(); j++){           
@@ -196,23 +198,32 @@ string Printer::createImage(int part, int type, string value){
     switch (type){
         case 0:
             this->type = "  ";
-            this->color = "\x1B[30m";
+            //this->color = "\x1B[30m";
+            this->color = " ";      //para los ocultos ?
         break;
+        
         case 1:
             this->type = "<3";
-            this->color = "\x1B[31m";
+            //this->color = "\x1B[31m";
+            this->color = "R";
         break;
+
         case 2:
             this->type = "<>";
-            this->color = "\x1B[31m";
+            //this->color = "\x1B[31m";
+            this->color = "R";
         break;
+
         case 3:
             this->type = "E3";
-            this->color = "\x1B[30m";
+            //this->color = "\x1B[30m";
+            this->color = "N";
         break;
+
         case 4:
             this->type = "!!";
-            this->color = "\x1B[30m";
+            //this->color = "\x1B[30m";
+            this->color = "N";
         break;
     }
 
@@ -220,16 +231,19 @@ string Printer::createImage(int part, int type, string value){
     switch(part){
 
         case 0:
-            img = color + "["+this->type+"   ]" + endColor;
-            //img = color + "["+this->type+  value   + color +            "   ]" + endColor;
+            img = "["+this->type +  color + "   ]"+ endColor;;  
+            //img = color + "["+this->type+"   ]" + endColor;           //P2
+            //img = color + "["+this->type+  value   + color +            "   ]" + endColor;        //P1
         break;
 
         case 1:
             if(value.compare("10") == 0 || value.compare("<3") == 0 || value.compare("<>") == 0 || value.compare("E3") == 0 ||value.compare("!!") == 0){
-                img = color + "["+ value + " " + this->type + "]" + endColor;
+                img = "["+ value +  color  + this->type + "]"+ endColor;;
+                //img = color + "["+ value + " " + this->type + "]" + endColor;
             }
             else{
-                img = color + "["+ value + " " + this->type + "]" + endColor;
+                img = "["+ value +  color  + this->type + "]"+ endColor;;
+                // img = color + "["+ value + " " + this->type + "]" + endColor;
             }
         break;
 
