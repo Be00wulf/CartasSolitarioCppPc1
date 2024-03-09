@@ -42,7 +42,7 @@ T Queue<T>::remove(){
     }
     // else {
     //     // Devuelve un valor predeterminado si la cola está vacía
-    //     // Aquí puedes devolver cualquier valor que tenga sentido para tu aplicación
+    //     // Aquí puedes devolver cualquier valor 
     //     return T(); // Devuelve un valor predeterminado para el tipo T
     // }
 

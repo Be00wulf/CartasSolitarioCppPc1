@@ -16,7 +16,7 @@ public:
 private:
     void moveCard(int type);
     int currentAmount;
-    bool print;
+    bool print;                 //seleecion y destino
     Stack<Card*>* auxiliarStack = new Stack<Card*>;
     Stack<Card*>* auxiliarStack1 = new Stack<Card*>;
     Stack<Card*>* auxiliarStack2 = new Stack<Card*>;

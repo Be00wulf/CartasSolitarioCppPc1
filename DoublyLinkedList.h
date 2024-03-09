@@ -154,7 +154,7 @@ int DoublyLinkedList<T>::indexOf(T value){
 //removeFirst                   ELIMINANDO PRIMER NODO DE LA LISTA
 template <typename T>
 void DoublyLinkedList<T>::removeFirst(){
-    if(!this->isEmptyList()){                   //lista no esté vacía
+    if(!this->isEmptyList()){                   //que lista no esté vacía
         Node<T>* node = this->header;           //Crear un nuevo nodo que apunta al header
         if(this->header == this->end){          //ver si el header y el end apuntan al mismo nodo
             this->header = NULL;                //Si el header y el end son iguales, establecer ambos a NULL
@@ -202,18 +202,6 @@ void DoublyLinkedList<T>::removeIndex(int index){
     }
 }
 
-//removeValue                       ELIMINANDO NODO DE LA LISTA BASADO EN EL VALOR RECIBIDO COMO PARAMETRO
-template <typename T>
-void DoublyLinkedList<T>::removeValue(T value){     //
-    if(!this->isEmptyList()){           //Verificar que la lista no esté vacía
-        for(Node<T>* node = this->header; node != NULL; node = node->getNext()){    //Recorrer la lista desde el header
-            if(node->getValue() == value){      //Si el valor del nodo actual es igual al valor recibido como parámetro
-                // this->remove(node);     / Llamar al método remove() para eliminar el nodo actual
-                break;
-            }   
-        }
-    }   
-}
 
 //isEmpty               VERIFICAR SI UNA LISTA ESTA VACIA
 template <typename T>
@@ -267,7 +255,7 @@ bool DoublyLinkedList<T>::isArrayOutOfBounds(int index){
         std::string msg = "El indice se encuentra fuera de los limites";
         throw  msg;
     }   
-    return false;       //Si la lista no está vacía, devolver false
+    return false;       
 }
 
 //remove                ELIMINANDO EL NODO QUE RECIBE COMO PARAMETRO

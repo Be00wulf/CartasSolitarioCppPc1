@@ -6,7 +6,7 @@
 MovementDriver::MovementDriver() {
 }
 
-//COLA Y PILA de cartas comodin
+//COLA Y PILA de cartas comodin         [ - ] [  ]
 void MovementDriver::moveQueue(Queue<Card*>* queue, Stack<Card*>* stack){
     if(!queue->isEmpty()){                  //si la cola no esta vacia
         stack->push(queue->remove());       //retira la carta de la cola
@@ -23,7 +23,7 @@ void MovementDriver::moveQueue(Queue<Card*>* queue, Stack<Card*>* stack){
     }
 }
 
-//Movimineto entre las 7 double linked lists en pila
+//Movimineto entre las 7 double linked lists/pilas      restricciones-varias cartas-carta auxiliar
 bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* principalStacks,int selectedColumn, int targetColumn, int amount){
     if(selectedColumn > 7 || selectedColumn < 1 || targetColumn > 7 || targetColumn < 1){
         std::cout<<"LA COLUMNA NO EXISTE\n";
@@ -37,7 +37,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
         Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
         Card* auxCard = NULL;
         
-        //Reordenar las pilas para poder realizar acciones sobre ellas
+        //Reordenar las pilas para poder realizar acciones sobre ellas      [abc] [cba] [abc]
         while(!this->selectedStack->isEmpty()){
             auxiliarMovementStack->push(this->selectedStack->peek());
             this->auxiliarStack1->push(this->selectedStack->pop());
@@ -157,13 +157,13 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
     return print;
 }
 
-//MOVIENDO DE LAS 7 PILAS (listas)  
+//MOVIENDO DE LAS 7 PILAS (listas a 4 pilas)  ->   restricciones 
 bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* principalStacks, DoublyLinkedList<Stack<Card*>*>* secondaryStacks, int selectedColumn){
     
     //Obtener la pila en la cual se desea mover
     this->selectedStack = principalStacks->get(selectedColumn-1);
     
-    //Reordena la pila para poder accionar encima
+    //Reordena la pila para poder accionar encima                   [abc]   [cba]   [abc]
     while(!this->selectedStack->isEmpty()){
         this->auxiliarStack3->push(this->selectedStack->pop());
     }
@@ -263,7 +263,7 @@ bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* princ
     return print;
 }
 
-//MOVIMIENTO DE COLA A 7 LISTAS (EN PILA)
+//MOVIMIENTO DE COLA A 7 LISTAS (EN PILA)           restricciones  de la cola a las listas 
 bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* principalStacks, int targetColumn){
     if(targetColumn > 7 || targetColumn < 1){
         std::cout<<"LA COLUMNA NO EXISTE\n";
@@ -374,34 +374,39 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
     return print;
 }
 
-//MOVIMIENTO ENTRE COLAS (PILA)
+//TIPO DE MOVIMIENTO ENTRE listas pilas     una o varias cartas-setHide    
 void MovementDriver::moveCard(int type){        //type determina el tipo de movimiento que se realizara
     if(type == 0){                              //movimiento entre las primeras dos pilas (auxiliarStack1 y auxiliarStack2).
         int counter = 0;
-        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
-        while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {
+        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;    //almacenando temporalmente las cartas que se moveran
+        
+        //moviendo de auxiliarStack1 a auxiliarMovementStack y luego de auxiliarMovementStack a auxiliarStack2
+        while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {    //pila 1[abc]   pila2[cba]      pila3[abc]
             auxiliarMovementStack->push(auxiliarStack1->pop());
             counter++;
         }
-
+        
         counter = 0;
         while(!auxiliarMovementStack->isEmpty() && counter < this->currentAmount) {
             auxiliarStack2->push(auxiliarMovementStack->pop());
             counter++;
         }
         
-        if(!auxiliarStack1->isEmpty()){
+        if(!auxiliarStack1->isEmpty()){                 //si al mover aun hay cartas la ultima se muestr: [- ] -> [carta]
             auxiliarStack1->peek()->setHide(false);
         }
     }
-    else if(type == 1){         //movimiento entre las pilas 3 y 4 (auxiliarStack3 y auxiliarStack4).       TYPE=1
+
+    else if(type == 1){         //movimiento entre las pilas de 3 a 4: no hay limite en cant de cartas a mover
         auxiliarStack4->push(auxiliarStack3->pop());
-        if(!auxiliarStack3->isEmpty()){
+        if(!auxiliarStack3->isEmpty()){             //verificar si despues del movimiento esta vacia y revelar carta superior si hay
             auxiliarStack3->peek()->setHide(false);
         }
     }
-    else{                       //movimiento entre las pilas 5 y 6 (auxiliarStack5 y auxiliarStack6).
-    //si auxiliarStack5 no está vacía después del movimiento, se revela la carta superior (peek) de auxiliarStack5 estableciendo su estado de ocultamiento en false.
+
+    else{                       //movimiento entre las pilas de 5 a 6
+    //si auxiliarStack5 no está vacía después del movimiento, se revela la carta superior (peek) de auxiliarStack5 
+    //estableciendo su estado de ocultamiento en false, como el type==1
         auxiliarStack6->push(auxiliarStack5->pop());
         if(!auxiliarStack5->isEmpty()){
             auxiliarStack5->peek()->setHide(false);

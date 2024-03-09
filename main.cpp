@@ -51,7 +51,7 @@ int main(){
             cout<< "3. Mover una carta entre las listas del tablero principal." <<endl;  
             cout<< "4. Mover una carta del tablero principal a una pila." <<endl;
             cout<< "5. Salir" <<endl;
-            cout<< "Seleccione una opcion" <<endl;
+            cout<< "Seleccione una opcion: ";
             cin >> option;
 
             switch(option){

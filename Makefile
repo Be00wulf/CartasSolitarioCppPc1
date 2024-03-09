@@ -10,10 +10,8 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
 #Archivos fuente
-#MAIN: Node.cpp		Queue.h		DoublyLinkedList.h		Stack.h
-#SRCS = main.cpp Carta.cpp Mazo.cpp Barajador.cpp
+#MAIN: Node.cpp		Queue.h		DoublyLinkedList.h		Stack.h		
 SRCS = main.cpp Card.cpp CardCreator.cpp MovementDriver.cpp Printer.cpp Shuffler.cpp
-#SRCS = main.cpp Node.cpp Carta.cpp Mazo.cpp Barajador.cpp 
 
 # .o generados durante la compilacion, sustituye la extensión .cpp por .o para cada archivo fuente
 OBJS = $(SRCS:.cpp=.o)
@@ -48,16 +46,16 @@ clean:
 # 		g++ -std=c++17 -Wall -c main.cpp
 
 # Carta.o: Carta.cpp Carta.h
-# 		g++ -std=c++17 -Wall -c Carta.cpp
+# 		g++ -std=c++17 -Wall -c Card.cpp
 
 # Mazo.o: Mazo.cpp Mazo.h
-# 		g++ -std=c++17 -Wall -c Mazo.cpp
+# 		g++ -std=c++17 -Wall -c CardCreator.cpp
 
 # Barajador.o: Barajador.cpp Barajador.h
-# 			g++ -std=c++17 -Wall -c Barajador.cpp
+# 			g++ -std=c++17 -Wall -c MovementDriver.cpp
 
 # Node.o: Node.cpp Node.h
-# 		g++ -std=c++17 -Wall -c Node.cpp
+# 		g++ -std=c++17 -Wall -c Printer.cpp
 
 # clean: 
 # 	rm *.o solitario

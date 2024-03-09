@@ -3,12 +3,12 @@
 #include "Queue.h"
 #include <iostream>
 
-Shuffler::Shuffler(){}
+Shuffler::Shuffler(){}              //fisher yates-> pend
 
-//shuffleCards              REVOLVIENDO LAS CARTAS
+//shuffleCards              REVOLVIENDO LAS CARTAS              
 void Shuffler::shuffleCards(DoublyLinkedList<Card*>* cards){
     srand((unsigned)time(NULL));                        //semilla para generar números aleatorios basada en el tiempo actual TETRIS     *POR PROCESO?
-    for(int i = 0; i < cards->size() - 4; i++){         //lista de cartas
+    for(int i = 0; i < cards->size() - 4; i++){         //lista de cartas [-4 para las catas vacias de pilas]
         this->randomNum = rand()%51+0;                  //random entre 0 y 51, almacenado en randomNum
         card = cards->get(i);                           //obtenemos carta de la lista y la almacenamos en cards
         cards->removeIndex(i);                          //removiendo carta de la lista
@@ -40,12 +40,12 @@ void Shuffler::distributeStacks(DoublyLinkedList<Card*>* cards){
         }
         principalStacks->add(i-1, stack);               //agrega la pila a la lista
     }
-    //Creacion e insercion de las pilas secundarias.
+    //Creacion e insercion de las pilas secundarias, para 4 cartas vacias de un tipo
     for(int i = 0; i < 4; i++){
         Stack<Card*>* stack = new Stack<Card*>;         //nueva pila
-        stack->push(cards->getLast());                  //agrega la ultima carta de la lista de cartas a la pila
-        cards->removeLast();                            //quita la ultima carta de la lista de cartas
-        secondaryStacks->addFirst(stack);               //agrega la pila a la lista
+        stack->push(cards->getLast());                  //agrega la ultima carta de la lista de cartas a la pila [las que no tienen valor]
+        cards->removeLast();                            //quita la ultima carta, de la lista original de cartas
+        secondaryStacks->addFirst(stack);               //se agrega la pila a la lista de pilas secundarias al principio
     }
 }
 

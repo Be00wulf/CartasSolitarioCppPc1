@@ -17,7 +17,7 @@ void Printer::print(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<S
                 auxiliarStack = auxiliarStack1;         //para los movimientos
             break;                                      //actualiza el estado de las pilas principales al transferir 
             case 1:                                     //cualquier carta de las pilas auxiliares de vuelta a las pilas principales
-                stack = stack2;
+                stack = stack2;                         //[abc] [cba]   [abc]
                 auxiliarStack = auxiliarStack2;
             break;
             case 2:
@@ -64,9 +64,9 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
        for(int i = 1; i < 6; i++){              //recorriendo la carta                  
             for(int j = 0; j < 7; j++){         //recorrie las 7 columnas de las listas
                 switch(j){
-                    case 0:
-                        stack = stack1;                             //creamos stacks y sus auxiliares
-                        auxiliarStack = auxiliarStack1;
+                    case 0:                
+                        stack = stack1;                         //seleccionando la pila correspondiente a la columna actual                     
+                        auxiliarStack = auxiliarStack1;         //asignando a la pila que corresponde
                     break;
                     case 1:
                         stack = stack2;
@@ -94,7 +94,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                     break;
                 }
                          
-                if(!stack->isEmpty()){                  //pila vacia
+                if(!stack->isEmpty()){                  //pila no vacia
                     if(stack->peek()->isHide()){        //si la carta en la cima de la pila esta oculta
                         image = image + "  " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas  ->4->6->2    
                     }       //agregamos espacio "-" simbolizando la carta oculta
@@ -109,7 +109,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                     }
                 }
                 else{
-                    image = image + "        ";   //9 espacios adentro de la carta     ->8 y
+                    image = image + "        ";   //9 espacios adentro de la carta, para espacios sin carta     ->8 y
                 }
             }
             //VALOR R           
@@ -229,15 +229,15 @@ string Printer::createImage(int part, int type, string value){
     switch(part){
 
         case 0:
-            img = "["+this->type +  color + "   ]"+ endColor;;  
+            img = "["+this->type +  color + "   ]";;  
         break;
 
         case 1:
             if(value.compare("10") == 0 || value.compare("<3") == 0 || value.compare("<>") == 0 || value.compare("E3") == 0 ||value.compare("!!") == 0){
-                img = "["+ value +  color  + this->type + "]"+ endColor;;
+                img = "["+ value +  color  + this->type + "]";;
             }
             else{
-                img = "["+ value +  color  + this->type + "]"+ endColor;;
+                img = "["+ value +  color  + this->type + "]";;
             }
         break;
 
