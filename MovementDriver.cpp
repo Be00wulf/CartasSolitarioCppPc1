@@ -31,30 +31,30 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
     }
     
     else{   
-        //Obtener las pilas en las cuales se desea mover
+        //Obtener las pilas en las cuales se desea mover        obteniendo columna seleccionada y columna destino 
         this->selectedStack = principalStacks->get(selectedColumn-1);
         this->targetStack = principalStacks->get(targetColumn-1);
-        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
+        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;     //almacen temporal de las cartas a mover
         Card* auxCard = NULL;
         
-        //Reordenar las pilas para poder realizar acciones sobre ellas      [abc] [cba] [abc]
+        //Reordenar las pilas para poder realizar acciones sobre ellas      [abc] [cba] - [abc]
         while(!this->selectedStack->isEmpty()){
             auxiliarMovementStack->push(this->selectedStack->peek());
             this->auxiliarStack1->push(this->selectedStack->pop());
         }
-        while(!this->targetStack->isEmpty()){
+        while(!this->targetStack->isEmpty()){                               //[abc]
             this->auxiliarStack2->push(this->targetStack->pop());
         }
 
-        auxCard = auxiliarMovementStack->pop();
-        this->currentAmount = 1;
+        auxCard = auxiliarMovementStack->pop();                 
+        this->currentAmount = 1;                        //cantidad de cartas a mover
         while(!auxiliarMovementStack->isEmpty() && this->currentAmount < amount && !auxiliarMovementStack->peek()->isHide()) {
-            auxCard = auxiliarMovementStack->pop();
-            this->currentAmount++;
+            auxCard = auxiliarMovementStack->pop();     //extrayendo la carta superior de la auxiliar movement stack
+            this->currentAmount++;      //cantidad de cartas movidas
         }
 
         //revisando carta seleccionada
-        cout << "CARTA AUXILIAR --------------------" <<endl;
+        cout << "CARTA AUXILIAR --------------------" <<endl;       //que cartta movimos - desde que carta movimos
         cout << auxCard->getValue() << endl;
 
         
@@ -64,17 +64,17 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
             print = false;
         }  
 
-        else if(auxiliarStack2->isEmpty()){                         //SOLO PODEMOS COLOCAR K EN ESPACIOS VACIOS
-            if(auxCard->getValue() == "K"){
+        else if(auxiliarStack2->isEmpty()){                        //si la columna de destino esta vacia se mueve
+            if(auxCard->getValue() == "K"){                        
                 this->moveCard(0);
             }
-            else{
+            else{                                                  //SOLO PODEMOS COLOCAR K EN ESPACIOS VACIOS
                 std::cout<<"SOLO PODEMOS COLOCAR K EN ESTOS ESPACIOS VACIOS\n";
                 print = false;
             }
         }
 
-        else{
+        else{           //si la columna de destino no esta vacia
             //Validar que no sean cartas del mismo color
             if(auxCard->getColor() == auxiliarStack2->peek()->getColor()){
                 std::cout<<"EN LISTAS NO PUEDEN SER COLOCADAS CARTAS CONSECUTIVAS DEL MISMO COLOR\n";
@@ -83,7 +83,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
 
             else{
             //Validar el orden de las cartas
-                if(auxiliarStack2->peek()->getValue() == "K"){
+                if(auxiliarStack2->peek()->getValue() == "K"){      //k=    K - Q
                     if(auxCard->getValue() == "Q"){
                         this->moveCard(0);
                     }
@@ -93,7 +93,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                     }
                 }
 
-                else if(auxiliarStack2->peek()->getValue() == "Q"){
+                else if(auxiliarStack2->peek()->getValue() == "Q"){     //   Q - J
                     if(auxCard->getValue() == "J"){
                         this->moveCard(0);
                     }
@@ -103,7 +103,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                     }
                 }
 
-                else if(auxiliarStack2->peek()->getValue() == "J"){
+                else if(auxiliarStack2->peek()->getValue() == "J"){         //J - 10
                     if(auxCard->getValue() == "10"){
                         this->moveCard(0);
                     }
@@ -113,7 +113,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                     }
                 }
 
-                else if(auxiliarStack2->peek()->getValue() == "2"){
+                else if(auxiliarStack2->peek()->getValue() == "2"){         //2 - A
                     if(auxCard->getValue() == "A"){
                         this->moveCard(0); 
                     }
@@ -123,18 +123,19 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                     }
                 }
 
-                else if(auxiliarStack2->peek()->getValue() == "A"){
+                else if(auxiliarStack2->peek()->getValue() == "A"){             // solo A en la cima
                     std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                     print = false;
                 }
 
                 else{
                     //stoi: para convertir una cadena que representa un número en formato de texto (string) en su equivalente numérico en formato entero (int)
+                    //que la auxCard no sea A K Q J para mover valores
                     if(auxCard->getValue() == "A" || auxCard->getValue() == "K" || auxCard->getValue() == "Q" || auxCard->getValue() == "J"){
                         std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
-                    else{
+                    else{  //Compara el valor entero de la carta superior de la pila destino con el valor entero de la carta auxiliar+1
                         if(stoi(auxiliarStack2->peek()->getValue()) == (stoi(auxCard->getValue())+1)){
                            this->moveCard(0);
                         }
@@ -147,8 +148,8 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
             } 
         }
         //Reestablecer las pilas a su estado original   COLA PILA 
-        while(!this->auxiliarStack1->isEmpty()){
-            this->selectedStack->push(this->auxiliarStack1->pop());
+        while(!this->auxiliarStack1->isEmpty()){                        //puede que al mover no se usen todas las seleccionadas
+            this->selectedStack->push(this->auxiliarStack1->pop());     //por lo que luego deben vaciarse en la copia
         }
         while(!this->auxiliarStack2->isEmpty()){
             this->targetStack->push(this->auxiliarStack2->pop());
@@ -160,16 +161,16 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
 //MOVIENDO DE LAS 7 PILAS (listas a 4 pilas)  ->   restricciones 
 bool MovementDriver::moveToSecondaryStack(DoublyLinkedList<Stack<Card*>*>* principalStacks, DoublyLinkedList<Stack<Card*>*>* secondaryStacks, int selectedColumn){
     
-    //Obtener la pila en la cual se desea mover
+    //Obtener la pila en la cual se desea mover, elegida por el usuaario
     this->selectedStack = principalStacks->get(selectedColumn-1);
     
     //Reordena la pila para poder accionar encima                   [abc]   [cba]   [abc]
-    while(!this->selectedStack->isEmpty()){
-        this->auxiliarStack3->push(this->selectedStack->pop());
+    while(!this->selectedStack->isEmpty()){                         //se extrae una carta de selectedStack y se coloca en auxiliarStack3
+        this->auxiliarStack3->push(this->selectedStack->pop());     //para  invertir el orden de las cartas en la pila seleccionada
     }
     
     //Validar pila vacia
-        if(auxiliarStack3->isEmpty()){
+        if(auxiliarStack3->isEmpty()){  //no hay cartas en la pila elegida
             std::cout<<"NO HAY CARTAS EN ESTA SELECCION\n";
             print = false;
         }
@@ -270,16 +271,16 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
         this->print = false;
     }
     else{
-        //Obtener las pilas en las cuales se desea mover.
-        this->auxiliarStack5 = stack;
-        this->targetStack = principalStacks->get(targetColumn-1);  
+        //se obtiene la pila principal en la columna objetivo targetColumn y se asigna a la variable targetStack
+        this->auxiliarStack5 = stack;           
+        this->targetStack = principalStacks->get(targetColumn-1);   //Esto se hace para poder comparar las cartas de la cola con las de la pila objetivo en orden descendente.
         
         //Reordenar la pila para poder realizar acciones sobre ella.
         while(!this->targetStack->isEmpty()){
             this->auxiliarStack6->push(this->targetStack->pop());
         }
         
-        //Validar si alguna de las pilas se encuentra vacia.
+        //Validar si se encuentra vacia.
         if(auxiliarStack5->isEmpty()){
             std::cout<<"NO HAY CARTAS EN ESTA SELECCION\n";
             print = false;

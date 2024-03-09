@@ -83,7 +83,7 @@ en la terminal: git init                  iniciamos git
 git add main.cpp                          agregando archivos individuales
       git add .                                 agregando todos los archivos 
       git commit -m " "                         agregando nota a la version
-git log                                   datos y fecha
+
 creamos un repositorio en github          
 git remote add origin https://github.com(...)    agregar direccion
       git push origin master                    subimos version
