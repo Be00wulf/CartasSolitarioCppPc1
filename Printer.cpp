@@ -57,7 +57,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
     stack7 = principalStacks->get(6);
 
     while(!stack1->isEmpty() || !stack2->isEmpty() || !stack3->isEmpty() || !stack4->isEmpty() || !stack5->isEmpty() || !stack6->isEmpty() || !stack7->isEmpty()){ 
-       for(int i = 1; i < 6; i++){  
+       for(int i = 1; i < 6; i++){                      
             for(int j = 0; j < 7; j++){
                 switch(j){
                     case 0:
@@ -92,12 +92,12 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                          
                 if(!stack->isEmpty()){
                     if(stack->peek()->isHide()){
-                        image = image + "  " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas  ->4->6->2
+                        image = image + "  " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas  ->4->6->2    
                     }
                  
                     else{
                         card = stack->peek();       
-                        image = image + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
+                        image = image + " " + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
                     }   
                     if(i == 5){
                         card = stack->pop();
@@ -105,7 +105,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                     }
                 }
                 else{
-                    image = image + "         ";   //9 espacios adentro de la carta
+                    image = image + "        ";   //9 espacios adentro de la carta     8
                 }
             }
             //VALOR R           
@@ -118,13 +118,13 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
             }     
         }         
     }
-    std::cout<<image;
+    std::cout<<image ;      //3312
 
 }
 
 //  printQueuesAndSecondaryStacks           IMPRIMIENDO LAS COLAS
 void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* secondaryStacks){
-    string img = "    1       2         3       4         5        6       7   \n";    //de 2 a 3 se agregaron 2 espacios      de 4-5 3espacios 
+    string img = "    1       2       3       4       5        6       7   \n";    
     for(int i = 1; i < 6; i++){     //iterando en filas 5s
         //Colas 3312
         for(int j = 0; j < 2; j++){         //iterando en las dos colas
@@ -166,21 +166,21 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
                     }
                 }
             }
-            //3312      [2*]espacios dentro  tenia[1]    SEPARACION DE LA PARED INICIAL 
-            img = img + "  " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero
+            //3312   1   [2*]  ->1    SEPARACION DE LA PARED INICIAL 
+            img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero   
         }
         //3312
-        img = img + "            ";      //separando colas de pilas 7->14*->12
+        img = img + "          ";      //separando colas de pilas 7->14*->12->10*
         
 //Pilas secundarias PILAS
         for(int j = 0; j < secondaryStacks->size(); j++){           
             card = secondaryStacks->get(j)->peek();             //obteniendo la carta de la cima de la pila secundaria actual
             //3312
-            img = img  + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero 
+            img = img  + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero    1*
         }
 
         if(i == 1){                                     //agregando el indicador de las filas 0
-            img = img + "0\n";
+            img = img + "  0\n";
         }
         else{
 //           //img = img;

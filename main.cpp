@@ -23,6 +23,7 @@ bool endGame = false;
 int option;
 int selectedRow;
 int selectedColumn;
+int amount;
 int targetRow;
 int targetColumn;
 
@@ -44,12 +45,12 @@ int main(){
     try{
         //MENU
         while(option != 5){
-            cout<< "\nBIENVENIDO AL JUEGO SOLITARIO" <<endl;
+            cout<< "\nOPCIONES:" <<endl;
             cout<< "1. Voltear una carta de la cola de cartas comodin." <<endl;
             cout<< "2. Sacar una carta de la cola y colocarla en el tablero principal." <<endl;
             cout<< "3. Mover una carta entre las listas del tablero principal." <<endl;  
             cout<< "4. Mover una carta del tablero principal a una pila." <<endl;
-            cout<< "5.Salir" <<endl;
+            cout<< "5. Salir" <<endl;
             cout<< "Seleccione una opcion" <<endl;
             cin >> option;
 
@@ -71,9 +72,11 @@ int main(){
                     cout<<"Ingrese la columna origen: ";
                     cin >> selectedColumn;  
                     cout<<"Ingrese la columna destino: ";
-                    cin >> targetColumn; 
+                    cin >> targetColumn;
+                    cout << "Ingrese la cantidad de cartas: ";
+                    cin >> amount; 
                     cout<<endl;
-                    if(movementDriver.movePrincipalCards(principalStacks, selectedColumn, targetColumn)){
+                    if(movementDriver.movePrincipalCards(principalStacks, selectedColumn, targetColumn, amount)){
                         printer.print(queue, stack, principalStacks, secondaryStacks);
                     }
                 break;

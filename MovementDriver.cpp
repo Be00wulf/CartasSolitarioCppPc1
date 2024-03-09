@@ -24,7 +24,7 @@ void MovementDriver::moveQueue(Queue<Card*>* queue, Stack<Card*>* stack){
 }
 
 //Movimineto entre las 7 double linked lists en pila
-bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* principalStacks,int selectedColumn, int targetColumn){
+bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* principalStacks,int selectedColumn, int targetColumn, int amount){
     if(selectedColumn > 7 || selectedColumn < 1 || targetColumn > 7 || targetColumn < 1){
         std::cout<<"LA COLUMNA NO EXISTE\n";
         this->print = false;
@@ -33,15 +33,29 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
     else{   
         //Obtener las pilas en las cuales se desea mover
         this->selectedStack = principalStacks->get(selectedColumn-1);
-        this->targetStack = principalStacks->get(targetColumn-1);        
+        this->targetStack = principalStacks->get(targetColumn-1);
+        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
+        Card* auxCard = NULL;
         
         //Reordenar las pilas para poder realizar acciones sobre ellas
         while(!this->selectedStack->isEmpty()){
+            auxiliarMovementStack->push(this->selectedStack->peek());
             this->auxiliarStack1->push(this->selectedStack->pop());
         }
         while(!this->targetStack->isEmpty()){
             this->auxiliarStack2->push(this->targetStack->pop());
         }
+
+        auxCard = auxiliarMovementStack->pop();
+        this->currentAmount = 1;
+        while(!auxiliarMovementStack->isEmpty() && this->currentAmount < amount && !auxiliarMovementStack->peek()->isHide()) {
+            auxCard = auxiliarMovementStack->pop();
+            this->currentAmount++;
+        }
+
+        cout << "CARTA AUXILIAR --------------------" <<endl;
+        cout << auxCard->getValue() << endl;
+
         
         //Validar si alguna de las pilas se encuentra vacia
         if(auxiliarStack1->isEmpty()){
@@ -50,7 +64,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
         }  
 
         else if(auxiliarStack2->isEmpty()){                         //SOLO PODEMOS COLOCAR K EN ESPACIOS VACIOS
-            if(auxiliarStack1->peek()->getValue() == "K"){
+            if(auxCard->getValue() == "K"){
                 this->moveCard(0);
             }
             else{
@@ -61,7 +75,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
 
         else{
             //Validar que no sean cartas del mismo color
-            if(auxiliarStack1->peek()->getColor() == auxiliarStack2->peek()->getColor()){
+            if(auxCard->getColor() == auxiliarStack2->peek()->getColor()){
                 std::cout<<"EN LISTAS NO PUEDEN SER COLOCADAS CARTAS CONSECUTIVAS DEL MISMO COLOR\n";
                 print = false;
             }
@@ -69,7 +83,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
             else{
             //Validar el orden de las cartas
                 if(auxiliarStack2->peek()->getValue() == "K"){
-                    if(auxiliarStack1->peek()->getValue() == "Q"){
+                    if(auxCard->getValue() == "Q"){
                         this->moveCard(0);
                     }
                     else{
@@ -79,7 +93,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                 }
 
                 else if(auxiliarStack2->peek()->getValue() == "Q"){
-                    if(auxiliarStack1->peek()->getValue() == "J"){
+                    if(auxCard->getValue() == "J"){
                         this->moveCard(0);
                     }
                     else{
@@ -89,7 +103,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                 }
 
                 else if(auxiliarStack2->peek()->getValue() == "J"){
-                    if(auxiliarStack1->peek()->getValue() == "10"){
+                    if(auxCard->getValue() == "10"){
                         this->moveCard(0);
                     }
                     else{
@@ -99,7 +113,7 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                 }
 
                 else if(auxiliarStack2->peek()->getValue() == "2"){
-                    if(auxiliarStack1->peek()->getValue() == "A"){
+                    if(auxCard->getValue() == "A"){
                         this->moveCard(0); 
                     }
                     else{
@@ -114,12 +128,12 @@ bool MovementDriver::movePrincipalCards(DoublyLinkedList<Stack<Card*>*>* princip
                 }
 
                 else{
-                    if(auxiliarStack1->peek()->getValue() == "A" || auxiliarStack1->peek()->getValue() == "K" || auxiliarStack1->peek()->getValue() == "Q" || auxiliarStack1->peek()->getValue() == "J"){
+                    if(auxCard->getValue() == "A" || auxCard->getValue() == "K" || auxCard->getValue() == "Q" || auxCard->getValue() == "J"){
                         std::cout<<"NO SE PUEDEN COLOCAR CARTAS EN ESTE ORDEN, RECUERDA K-Q-J-(10-2)-A\n";
                         print = false;
                     }
                     else{
-                        if(stoi(auxiliarStack2->peek()->getValue()) == (stoi(auxiliarStack1->peek()->getValue())+1)){
+                        if(stoi(auxiliarStack2->peek()->getValue()) == (stoi(auxCard->getValue())+1)){
                            this->moveCard(0);
                         }
                         else{
@@ -361,7 +375,19 @@ bool MovementDriver::moveToPrincipalStack(Stack<Card*>* stack, DoublyLinkedList<
 //MOVIMIENTO ENTRE COLAS (PILA)
 void MovementDriver::moveCard(int type){
     if(type == 0){
-        auxiliarStack2->push(auxiliarStack1->pop());
+        int counter = 0;
+        Stack<Card*>* auxiliarMovementStack = new Stack<Card*>;
+        while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {
+            auxiliarMovementStack->push(auxiliarStack1->pop());
+            counter++;
+        }
+
+        counter = 0;
+        while(!auxiliarStack1->isEmpty() && counter < this->currentAmount) {
+            auxiliarStack2->push(auxiliarMovementStack->pop());
+            counter++;
+        }
+        
         if(!auxiliarStack1->isEmpty()){
             auxiliarStack1->peek()->setHide(false);
         }
