@@ -55,8 +55,9 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
     stack5 = principalStacks->get(4);
     stack6 = principalStacks->get(5);
     stack7 = principalStacks->get(6);
+
     while(!stack1->isEmpty() || !stack2->isEmpty() || !stack3->isEmpty() || !stack4->isEmpty() || !stack5->isEmpty() || !stack6->isEmpty() || !stack7->isEmpty()){ 
-       for(int i = 1; i < 6; i++){ 
+       for(int i = 1; i < 6; i++){  
             for(int j = 0; j < 7; j++){
                 switch(j){
                     case 0:
@@ -91,103 +92,105 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                          
                 if(!stack->isEmpty()){
                     if(stack->peek()->isHide()){
-                        image = image + " " + this->createImage(i, 0, "-");
+                        image = image + "   " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas
                     }
+                 
                     else{
-                        card = stack->peek();
-                        image = image + " " + this->createImage(i, card->getType(), card->getValue());
-                    }
+                        card = stack->peek();       
+                        image = image + " " + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
+                    }   
                     if(i == 5){
                         card = stack->pop();
                         auxiliarStack->push(card);
                     }
                 }
                 else{
-                    image = image + "        ";
+                    image = image + "         ";   //9 espacios adentro de la carta
                 }
             }
-           
-            if(i == 4){
-                image = image + "  " + std::to_string(row) +  "\n";
+            //VALOR R           
+            if(i == 1){    
+                image = image + " " + std::to_string(row) +  "\n"; //2      ->1     espacio entre la carta y la columna de numeros final
                 row++;
             }
-            else{
+            else{      
                image = image + "\n";
             }     
         }         
     }
-    std::cout<<image <<"\n\n";
+    std::cout<<image;
+
 }
 
-/*
- * Metodo encargado de la impresion de las colas.
- * 1. Realiza 5 iteraciones, en cada iteracion concatena al string image un segmento de las cartas que se estan
- *    construyendo. 
- * 2. Por cada cola valida si se encuentra vacia o contiene elementos, si se encuentra vacia crea una objeto carta 
- *    cuyos atributos son vacios, de lo contrario asigna a la variable card el valor obtenido de la cima de la pila.
- * 3. Concatena segmentos al string image mediante el llamado al metodo createImage, enviandole como parametros los 
- *    valores de la carta y el numero de iteracion i. Depues de cada iteracion i inserta un salto de linea en el string.
- * 4. Por cada pila asigna el el valor obtenido de la cima de la misma a la variable carta y llama al metodo createImage
- *    enviandole como parametros los valores de la carta.
- * 5. Concatena los strings recibidos por el metodo createImage en la variable image.
- * 6. Por ultimo imprime el string image.
- */
+//  printQueuesAndSecondaryStacks           IMPRIMIENDO LAS COLAS
 void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<Stack<Card*>*>* secondaryStacks){
-    string img = "    1       2      3       4       5       6       7   \n";
-    for(int i = 1; i < 6; i++){
-        //Colas.
-        for(int j = 0; j < 2; j++){
+    string img = "    1       2         3       4          5       6       7   \n";    //de 2 a 3 se agregaron 2 espacios      de 4-5 3espacios 
+    for(int i = 1; i < 6; i++){     //iterando en filas 5s
+        //Colas 3312
+        for(int j = 0; j < 2; j++){         //iterando en las dos colas
             
-            if(j == 0){
-                if(queue->isEmpty()){
-                    Card* card = new Card(" ", 0, " ", true);
-                    this->card = card;
+            if(j == 0){                     //primera cola
+                if(queue->isEmpty()){       //cola vacia
+                    //3312
+                    Card* card = new Card(" ", 0, " ", true);       //creando carta vacia
+                    this->card = card;                              //asignando la carta creada como la carta actual
                 }
-                else{
-                    if(queue->peek()->isHide()){
-                        Card* card = new Card("-", 0, " ", true);
-                        this->card = card;
+
+                else{                               //      si la cola no esta vacia
+                    if(queue->peek()->isHide()){    //si la carta sobre la cola esta oculta
+                        //3312
+                        Card* card = new Card("-", 0, " ", true);   //creamos carta oculta
+                        this->card = card;                          //asignamos la carta creada como la carta actual
                     }
-                    else{
-                        card = queue->peek();
+                    else{       //si la carta en la cima de la cola no está oculta
+                        card = queue->peek();                 //obtenemos la carta en la cima de la cola          
                     }  
                 }
             }
-            else{
-                if(stack->isEmpty()){
-                    Card* card = new Card(" ", 0, " ", true);
-                    this->card = card;
+
+            //3312
+            else{       // si es la segunda cola
+                if(stack->isEmpty()){       //pila vacia
+                    Card* card = new Card(" ", 0, " ", true);       //creando cola vacia
+                    this->card = card;                              //la carta creada es la carta actual
                 }
-                else{
-                    if(stack->peek()->isHide()){
-                        Card* card = new Card("-", 0, " ", true);
-                        this->card = card;
+                else{               //si la pila no esta vacia
+                    if(stack->peek()->isHide()){                        //teniendo oculta la carta en la cima de la pila
+                        Card* card = new Card("-", 0, " ", true);       //creamos carta oculta
+                        this->card = card;                              //la carta creada sera la actual
                     }
-                    else{
-                        card = stack->peek();
+                    else{           //si la carta en la cima de la pila no esta oculta
+                        card = stack->peek();   //obtenemos la carta en la cima de la pila
                     }
                 }
             }
-            img = img + " " + this->createImage(i, card->getType(), card->getValue());
+            //3312      [2*]espacios dentro  tenia[1]    SEPARACION DE LA PARED INICIAL
+            img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero
         }
-        img = img + "       ";
+        //3312
+        img = img + "              ";      //separando colas de pilas tiene[7] cambia a 14
         
-        
-        //Pilas secundarias.
-        for(int j = 0; j < secondaryStacks->size(); j++){
-            card = secondaryStacks->get(j)->peek();
-            img = img + " " + this->createImage(i, card->getType(), card->getValue());
+        //Pilas secundarias PILAS
+        for(int j = 0; j < secondaryStacks->size(); j++){           
+            card = secondaryStacks->get(j)->peek();             //obteniendo la carta de la cima de la pila secundaria actual
+            //3312
+            img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero TIENEN[1]   PASA A [4]
         }
-        if(i == 4){
+
+        if(i == 1){                                     //agregando el indicador de las filas 0
             img = img + "  0\n";
         }
         else{
-            img = img + "\n";
+//           //img = img;
+            //3312
+            img = img + "\n";               //agregando salto de linea
         }
+
     }
-    std::cout<<img <<"\n \n";
+    std::cout<<img;
 }
 
+//createImage           VISUALIZANDO LA CARTA
 string Printer::createImage(int part, int type, string value){
     string img;
     switch (type){
@@ -212,28 +215,25 @@ string Printer::createImage(int part, int type, string value){
             this->color = "\x1B[30m";
         break;
     }
+
+    //impresion carta
     switch(part){
+
+        case 0:
+            img = color + "["+this->type+"   ]" + endColor;
+            //img = color + "["+this->type+  value   + color +            "   ]" + endColor;
+        break;
+
         case 1:
-            img = color + " _____ " + endColor;
-        break;
-        case 2:
-            img = color + "|"+this->type+"   |" + endColor;
-        break;
-        case 3:
-            img = color + "|     |" + endColor;
-        break;
-        case 4:
             if(value.compare("10") == 0 || value.compare("<3") == 0 || value.compare("<>") == 0 || value.compare("E3") == 0 ||value.compare("!!") == 0){
-                img = color + "| "+value+"  |" + endColor;
+                img = color + "["+ value + " " + this->type + "]" + endColor;
             }
             else{
-                img = color + "|  "+value+"  |" + endColor;
+                img = color + "["+ value + " " + this->type + "]" + endColor;
             }
         break;
-        case 5:
-            img = color + "|_____|" + endColor;
-        break;
-            
-    }
+
+    }//end switch(part)
+    
     return img;
 }   
