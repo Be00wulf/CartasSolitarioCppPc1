@@ -32,91 +32,65 @@ class DoublyLinkedList {
         void remove(Node<T>* node);
 };
 
-/*
- Constructor de la clase.
- */
+//constructor
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(){
     this->header = NULL;
     this->end = NULL;
 }
 
-/*
- * Metodo encargado de agregar un nuevo nodo al inicio de la lista.
- *  1.Crea un nuevo nodo con el valor recibido como parametro.
- *  2.Valida si la lista se encuentra vacia, de ser asi se le asigna al header y al end la direccion del nodo creado.
- *  3.Si no se encuentra vacia, establece el siguiente del nodo hacia el header, el previo del header hacia el nodo y 
- *    asigna al header la direccion del nodo creado.
- */
+//addFirst          AGREGANDO UN NUEVO NODO AL INICIO DE LA LISTA
 template <typename T>
-void DoublyLinkedList<T>::addFirst(T value){
-    Node<T>* node = new Node<T>(value);   
-    if(this->isEmpty()){
-        this->header = node;
+void DoublyLinkedList<T>::addFirst(T value){        
+    Node<T>* node = new Node<T>(value);         //creando nodo
+    if(this->isEmpty()){                        
+        this->header = node;                    //asignar header y end a una lista vacia
         this->end = node;
     }
     else{
-        node->setNext(this->header);
-        this->header->setPrevious(node);
-        this->header = node;
+        node->setNext(this->header);            //cuando la lista no esta vacia se agrega el nuevo noodo al principio de la lista
+        this->header->setPrevious(node);        //asignamos el siguiente del nuevo nodo al header actual
+        this->header = node;                    //actualizando header para apuntar al nuevo nodo
     }
 } 
 
-/*
- * Metodo encargado de agregar un nuevo nodo al final de la lista.
- * 1.Crea un nuevo nodo con el valor recibido como parametro.
- * 2.Valida si la lista se encuentra vacia, de ser asi se le asigna al header y al end la direccion del nodo creado.
- * 3.Si no se encuentra vacia, establece el previo del nodo hacia el end, el siguiente del end hacia el nodo y 
- *    asigna al end la direccion del nodo creado.
- */
+//addLast       AGREGANDO NODO AL FINAL DE UNA LISTA
 template <typename T>
 void DoublyLinkedList<T>::addLast(T value){
-    Node<T>* node = new Node<T>(value);   
-    if(this->isEmpty()){
-        header = node;
+    Node<T>* node = new Node<T>(value);         //creando nodo
+    if(this->isEmpty()){                        //lista vacia
+        header = node;                          //con la lista vacia asignamos el header y el end al nuevo nodo
         end = node;
     }
-    else{
-        node->setPrevious(this->end);
-        this->end->setNext(node);
-        end = node;
+    else{                                   //en caso no este vacia se agrega el nodo al final de la lista
+        node->setPrevious(this->end);       //el nodo previo al nuevo nodo como el end actual
+        this->end->setNext(node);           //establecemos el siguiente del end actual hacia el nuevo nodo
+        end = node;                         //actualizamos el end para que apunte al nuevo nodo
     }
 } 
 
-/*
- * Metodo encargado de insertar un nuevo nodo en el indice de la lista que recibe como parametro.
- * 1. Verifica si el indice recibido es igual a la longitud de la lista, en este caso se desea insertar un nuevo
- *    elemento justo despues del ultimo elemento de la lista, por lo cual se llama al metodo addLast().
- * 2. Verifica si la lista se encuentra vacia y si el indice se encuentra dentro de los limites, inicia
- *    la busqueda del nodo con el indice donde se desea insertar.
- * 3. Si el nodo encontrado es igual al header se llama al metodo addFirst().
- * 4. Caso contrario se crea un nuevo nodo con el valor recibido como parametro.
- * 5. Se establece siguiente del nodo previo al nuevo nodo.
- * 6. Se establece el previo del nuevo nodo al previo del nodo actual.
- * 7. Se estabelce el siguiente del nuevo nodo al nodo actual.
- * 8. Se establece el previo del nodo actual al nodo nuevo.
- */
+//add           INSERTAMOS NUEVO NODO EN EL INDICE DE LA LISTA QUE RECIBE COMO PARAMETRO
 template <typename T>
 void DoublyLinkedList<T>::add(int index, T value){
-    if(index == this->size()){
-        this->addLast(value);
+    if(index == this->size()){              //revisar si el indice es igual a la longitud de la lista
+        this->addLast(value);               //Si es así, insertar el nuevo elemento justo después del último elemento de la lista
     }
-    else{
+    else{       //si la lista no esta vacia y el indice esta dento de los limites
         if(!this->isEmptyList()){
             if(!this->isArrayOutOfBounds(index)){
-                int actualIndex = 0;
-                for(Node<T>* actualNode = this->header; actualNode != NULL; actualNode = actualNode->getNext()){
-                    if(actualIndex == index){  
-                        if(actualNode == this->header){
-                            this->addFirst(value);
+                int actualIndex = 0;                //inicializamos 
+                for(Node<T>* actualNode = this->header; actualNode != NULL; actualNode = actualNode->getNext()){        //iteramos sobre los nodos de la lista
+                    if(actualIndex == index){               //debemos verificar si el indice actual = indice donde se desea insertar
+                        if(actualNode == this->header){     
+                            this->addFirst(value);              //si el nodo actual = header llamamos al metodo
                             break;
                         }
-                        else{ 
-                            Node<T>* newNode = new Node<T>(value);
-                            actualNode->getPrevious()->setNext(newNode);
-                            newNode->setPrevious(actualNode->getPrevious());
-                            newNode->setNext(actualNode);
-                            actualNode->setPrevious(newNode);
+                        else{       //lista vacia y el indice esta dento de los limites
+                            Node<T>* newNode = new Node<T>(value);              //creamos nodo con el valor recibido como parametro
+                            actualNode->getPrevious()->setNext(newNode);        //Establecer el siguiente del nodo previo al nuevo nodo
+                            newNode->setPrevious(actualNode->getPrevious());    //Establecer el previo del nuevo nodo al previo del nodo actual
+                            newNode->setNext(actualNode);                       //Establecer el siguiente del nuevo nodo al nodo actual
+                            actualNode->setPrevious(newNode);                   //Establecer el previo del nodo actual al nodo nuevo
                             break;
                         }
                     }
@@ -127,209 +101,155 @@ void DoublyLinkedList<T>::add(int index, T value){
     }
 }
 
-/*
- * Metodo encargado de devolver el valor del nodo al frente de la lista.
- * Retorna el valor almacenado dentro del nodo referenciado por el header. 
-*/
+//getFirst              DEVOLVIENDO VALOR DEL NODO AL FRENTE DE LA LISTA
 template <typename T>
 T DoublyLinkedList<T>::getFirst(){
-    if(!this->isEmptyList()){
-        return this->header->getValue();
+    if(!this->isEmptyList()){                   //si la lista no esta vacia
+        return this->header->getValue();        //retornamos el valor almacenado en el primer nodo, referenciado por el header 
     }
 }
 
-/*
- * Metodo encargado de devolver el valor del nodo al final de la lista.
- * Retorna el valor almacenado dentro del nodo referenciado por el end. 
-*/
+//getLast                   DEVUELVE EL VALOR DEL NODO AL FINAL DE LA LISTA
 template <typename T>
 T DoublyLinkedList<T>::getLast(){
-    if(!this->isEmptyList()){
-        return this->end->getValue();
+    if(!this->isEmptyList()){                   //si l alista no esta vacia
+        return this->end->getValue();           //devuelve el valor almacenado en el ultimo nodo, referenciado por end
     }
 }
 
-/*
- * Metodo encargado de devolver el valor contenido dentro del nodo cuyo indice se recibe como parametro.
- * Se valida que la lista no se encuentre vacia y que el indice recibido se encuentre dentro de los limites.
- * Se inicia en el primer nodo, si el indice actual es igual al que se recibe como parametro se devuelve el
- * valor contenido del nodo actual, de lo contrario se avanza al siguiente nodo y se incrementa en 1 el valor
- * del indice actual.
-*/
+//get           DEVUELVE EL VALOR CONTENIDO DEL NODO DONDE EL INDICE SE RECIBE COMO PARAMETRO
 template <typename T>
 T DoublyLinkedList<T>::get(int index){
-    if(!this->isEmptyList()){
-        if(!this->isArrayOutOfBounds(index)){
-            int actualIndex = 0;
-            for(Node<T>* node = this->header; node != NULL; node = node->getNext()){
-                if(index == actualIndex){
-                    return node->getValue();
+    if(!this->isEmptyList()){                       //cuando la lista no este vacia 
+        if(!this->isArrayOutOfBounds(index)){       //verificamos si el indice esta dentro de los limites de la lista
+            int actualIndex = 0;                    //inicializamos
+            for(Node<T>* node = this->header; node != NULL; node = node->getNext()){    //Recorrer la lista para encontrar el nodo en el índice especificado
+                if(index == actualIndex){           // si el índice actual coincide con el índice especificado
+                    return node->getValue();        //evuelve el valor contenido en el nodo actual
                 }
-                actualIndex++;
+                actualIndex++;      //si no  hya coincidecias avanzar al siguiente nodo y aumentar el índice actual en 1
             }
         }      
     }
 }
 
-/*
- * Metodo encargado de obtener el indice del nodo cuyo valor sea igual al que se recibe como parametro.
- * Se valida que la lista no se encuentre vacia y se inicia desde el header hasta llegar al ultimo nodo.
- * Si el valor del nodo actual es igual al valor buscado se retorna el valor contenido dentro del entro
- * index de lo contrario se avanza al siguiente nodo y se incrementa en 1 el valor de index. Si no se 
- * encuentra ningun nodo con el valor buscado se retorna -1. 
-*/
+//indexOf           OBTIENE EL INDICE DEL NODO CUYO VALOR SEA IGUAL AL QUE SE RECIBE COMO PARAMETRO
 template <typename T>
 int DoublyLinkedList<T>::indexOf(T value){
-    if(!this->isEmptyList()){
-        int index = 0;
-        for(Node<T>* node = this->header; node != NULL; node = node->getNext()){
-            if(node->getValue() == value){
-                return index;
+    if(!this->isEmptyList()){                   //si la lista esta vacia
+        int index = 0;                  //inicializamos
+        for(Node<T>* node = this->header; node != NULL; node = node->getNext()){    //recorremos la lista desde el header hasta el uultimo nodo
+            if(node->getValue() == value){      //si coincide el valor, se devuelve el indice actual
+                return index;                   
             }
-            index++;
+            index++;        //si no hay coincidencias, avanzar al siguiente nodo y aumentar el índice en 1
         }
     }
-    return -1;
+    return -1;          //Si no se encuentra ningún nodo con el valor buscado, se devuelve -1
 }    
 
-/*
- * Metodo encargado de eliminar el primer nodo de la lista.
- *  1.Valida que la lista no se encuentre vacia.
- *  2.Crea un nuevo nodo que apunta hacia el header
- *  3.Si el header y el end apuntan al mismo nodo entonces se establece a NULL el valor de ambos.
- *  4.De lo contrario se establece el header hacia el siguiente del nodo actual  y el previo del nodo siguiente a NULL.
- *  5.Finalmente se elimina el nodo actual.  
- */
+//removeFirst                   ELIMINANDO PRIMER NODO DE LA LISTA
 template <typename T>
 void DoublyLinkedList<T>::removeFirst(){
-    if(!this->isEmptyList()){
-        Node<T>* node = this->header;
-        if(this->header == this->end){
-            this->header = NULL;
+    if(!this->isEmptyList()){                   //lista no esté vacía
+        Node<T>* node = this->header;           //Crear un nuevo nodo que apunta al header
+        if(this->header == this->end){          //ver si el header y el end apuntan al mismo nodo
+            this->header = NULL;                //Si el header y el end son iguales, establecer ambos a NULL
             this->end = NULL;
         }
         else{
-            this->header = node->getNext();
+            this->header = node->getNext();         //Si no, mover el header al siguiente nodo y establecer el previo del siguiente nodo a NULL
             node->getNext()->setPrevious(NULL);
         }
         delete node;
     }
 } 
 
-/*
- * Metodo encargado de eliminar el ultimo nodo de la lista.
- *  1.Valida que la lista no se encuentre vacia.
- *  2.Crea un nuevo nodo que apunta hacia el end.
- *  3.Si el header y el end apuntan al mismo nodo entonces se establece a NULL el valor de ambos.
- *  4.De lo contrario se establece el end hacia el previo del nodo actual  y el siguente del nodo previo a NULL.
- *  5.Finalmente se elimina el nodo actual.  
- */
+//removeLast                ELIMINANDO EL ULTIMO NODO DE LA LISTA
 template <typename T>
 void DoublyLinkedList<T>::removeLast(){
-    if(!this->isEmptyList()){
-        Node<T>* node = this->end;
-        if(this->header == this->end){
-            this->header = NULL;
-            this->end = NULL;
+    if(!this->isEmptyList()){           //Validar que la lista no esté vacía
+        Node<T>* node = this->end;      // Crear un nuevo nodo que apunta al end
+        if(this->header == this->end){  //Comprobar si el header y el end apuntan al mismo nodo
+            this->header = NULL;        //Si el header y el end son iguales, establecer ambos a NULL
+            this->end = NULL;           //Si el header y el end son iguales, establecer ambos a NUL
         }
         else{
-            this->end = node->getPrevious();
+            this->end = node->getPrevious();        //Si no, mover el end al nodo previo y establecer el siguiente del nodo previo a NULL
             node->getPrevious()->setNext(NULL);
         }
-        delete node;
+        delete node;        //Eliminar el nodo actual
     }
 } 
 
-/*
- * Metodo encargado de eliminar un nodo dentro de la lista basado en el indice que se recibe como parametro.
- * Valida que la lista no se encuentre vacia y que el indice se encuentre dentro de los limites. Recorre la
- * lista desde el header validando si el indice actual corresponde al indice del nodo que se desea eliminar,
- * si es asi llama la metodo remove() enviandole como parametro el nodo actual.
-*/
+//removeIndex               ELIMINANDO NODO EN FUNCION DEL INDICE QUE SE RECIBE COMO PARAMETRO
 template <typename T>
 void DoublyLinkedList<T>::removeIndex(int index){
-    if(!this->isEmptyList()){
-        if(!this->isArrayOutOfBounds(index)){
+    if(!this->isEmptyList()){                       //Verificar que la lista no esté vacía
+        if(!this->isArrayOutOfBounds(index)){           //Verificar que el índice esté dentro de los límites de la lista
             int actualIndex = 0;
-            for(Node<T>* node = this->header; node != NULL; node = node->getNext()){
-                if(actualIndex == index){
-                    this->remove(node);
+            for(Node<T>* node = this->header; node != NULL; node = node->getNext()){    //Recorrer la lista desde el header
+                if(actualIndex == index){       //Si el índice actual coincide con el índice del nodo que se desea eliminar
+                    this->remove(node);         //para eliminar el nodo actual
                     break;
                 }   
-            actualIndex++;
+            actualIndex++;          // Incrementar el índice actual
             }
         }
     }
 }
 
-/*
- * Metodo encargado de eliminar un nodo dentro de la lista basado en el valor  que se recibe como parametro.
- * Valida que la lista no se encuentre vacia. Recorre la lista desde el header validando si el valor del nodo 
- * actual es igual al valor del parametro recibido, si es asi llama la metodo remove() enviandole como parametro el nodo actual.
-*/
+//removeValue                       ELIMINANDO NODO DE LA LISTA BASADO EN EL VALOR RECIBIDO COMO PARAMETRO
 template <typename T>
-void DoublyLinkedList<T>::removeValue(T value){
-    if(!this->isEmptyList()){
-        for(Node<T>* node = this->header; node != NULL; node = node->getNext()){
-            if(node->getValue() == value){
-                this->remove(node);
+void DoublyLinkedList<T>::removeValue(T value){     //
+    if(!this->isEmptyList()){           //Verificar que la lista no esté vacía
+        for(Node<T>* node = this->header; node != NULL; node = node->getNext()){    //Recorrer la lista desde el header
+            if(node->getValue() == value){      //Si el valor del nodo actual es igual al valor recibido como parámetro
+                // this->remove(node);     / Llamar al método remove() para eliminar el nodo actual
                 break;
             }   
         }
     }   
 }
 
-/*
- * Metodo encargado de determinar si la lista se encuentra vacia.
- * Valida si el header y el end apuntan hacia NULL y devuelve el valor booleano obtenido de esa comparacion. 
-*/
+//isEmpty               VERIFICAR SI UNA LISTA ESTA VACIA
 template <typename T>
-bool DoublyLinkedList<T>::isEmpty(){
+bool DoublyLinkedList<T>::isEmpty(){        //Verificar si tanto el header como el end apuntan a NULL
     return this->header == NULL && end == NULL;
 }
 
-/*
- * Metodo encargado de eliminar todos los nodos de la lista.
- * Llama al metodo removeFirst() para eliminar cada uno de los nodos de la lista uno por uno.
-*/
+//clear                     ELIMINANDO TODOS LOS NODOS DE LA LISTA
 template <typename T>
 void DoublyLinkedList<T>::clear(){
-    if(!this->isEmpty()){
-        int length = this->size();
-        for(int i =0; i < length; i++){
-            this->removeFirst();
+    if(!this->isEmpty()){        //Verificar si la lista no está vacía
+        int length = this->size();      //Obtener la longitud de la lista
+        for(int i =0; i < length; i++){     //Iterar sobre la lista y eliminar cada nodo llamando al método removeFirst()
+            this->removeFirst();    
         }
     }
 }
 
-/*
- * Metodo encargado de obtener y retornar la longitud de la lista.
- * Recorre todos los nodos de la lista desde el nodo header hasta el nodo end, con cada nodo que nodo que 
- * avanza incrementa 1 al contrador size. Por ultimo retorna el valor contenido dentro de size. 
-*/
+//size          OBTIENE Y RETORNA LA LONGITUD DE LA LISTA
 template<typename T>
-int DoublyLinkedList<T>::size(){
-    if(this->isEmpty()){
+int DoublyLinkedList<T>::size(){        //Verificar si la lista está vacía
+    if(this->isEmpty()){                //retornar 0
         return 0;
     }
-    else{
+    else{                               //Si la lista no está vacía, inicializar el contador de tamaño en 1
         int size = 1;
-        for(Node<T>* node = this->header; node != end; node = node->getNext()){
-            size++;
+        for(Node<T>* node = this->header; node != end; node = node->getNext()){         //Iterar sobre la lista desde el header hasta el end y contar los nodos
+            size++;         // Incrementar el tamaño por cada nodo encontrado
         }
-        return size;
+        return size;        //Retornar el tamaño calculado
     }
 }
 
-/*
- * Metodo encargado de validar si la lista se encuentra vacia. De ser asi lanza una excepcion.
- * De lo contrario devuelve un valor false;
- */
+// /isEmptyList             LISTA VACIA ENVIANDO EXCEPCION
 template <typename T>
-bool DoublyLinkedList<T>::isEmptyList(){
+bool DoublyLinkedList<T>::isEmptyList(){           // Verificar si la lista está vacía utilizando el método isEmpty()
     if(this->isEmpty()){
         std::string msg = "La lista se encuentra vacia";
-        throw msg;
+        throw msg;          //lanzar una excepción
     }
     return false;    
 }
@@ -343,39 +263,25 @@ bool DoublyLinkedList<T>::isArrayOutOfBounds(int index){
     if(index >= this->size() || index < 0){
         std::string msg = "El indice se encuentra fuera de los limites";
         throw  msg;
-    }
-    return false;    
+    }   
+    return false;       //Si la lista no está vacía, devolver false
 }
 
-/*
- * Metodo encargado de eliminar el nodo que recibe como parametro.
- * 1. Si el nodo recibido es apuntado por el header se llama al metodo removeFirst().
- * 2. Si el nodo recibido es apuntado por el end se llama al metodo removeLast().
- * 3. De lo contrario se establece el siguiente del nodo previo al siguiente del nodo a eliminar.
- *    y el previo del nodo siguiente al previo del nodo a eliminar y se elimina el nodo.
- */
+//remove                ELIMINANDO EL NODO QUE RECIBE COMO PARAMETRO
 template <typename T>
 void DoublyLinkedList<T>::remove(Node<T>* node){
-    if(node == this->header){
-        this->removeFirst();
+    if(node == this->header){           //Verificar si el nodo recibido es apuntado por el header
+        this->removeFirst();            //Si es así, llamar al método removeFirst() para eliminar el primer nodo
     }
-    else if(node == this->end){
-        this->removeLast();
+    else if(node == this->end){         //Verificar si el nodo recibido es apuntado por el end
+        this->removeLast();             //Si es así, llamar al método removeLast() para eliminar el último nodo
     }
-    else{
-        node->getPrevious()->setNext(node->getNext());
-        node->getNext()->setPrevious(node->getPrevious()); 
-        delete node;
+    else{       //Si no es el primer ni el último nodo, realizar los siguientes pasos
+        node->getPrevious()->setNext(node->getNext());              // Establecer el siguiente del nodo previo al siguiente del nodo a eliminar
+        node->getNext()->setPrevious(node->getPrevious());          // Establecer el previo del nodo siguiente al previo del nodo a eliminar
+        delete node;    // Eliminar el nodo
     }
 }
-
-
-
-
-
-
-
-
 
 
 #endif /* DOUBLYLINKEDLIST_H */
