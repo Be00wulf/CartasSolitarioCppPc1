@@ -1,0 +1,61 @@
+    MANUAL DE USUARIO                                        JUEGO: SOLITARIO
+    MARIA JOSE BAQUIAX RODRIGUEZ                          ESTRUCTURA DE DATOS
+    201831422                               CUNOC-USAC-INGENIERIA EN SISTEMAS
+
+
+MANUAL TECNICO
+    El desarrollo del juego se realiza en el lenguaje C++, con una compilacion
+    desde el archivo Makefile, donde se definen todas las acciones necesarias
+    para construir el proyecto con el comando make cómo compilando y construyendo
+    el proyecto.
+
+    Dentro del Makefile se establecen los archivos fuente, creando los .o durante
+    la compilacion, de archivos objeto, resultado de compilar cada archivo fuente
+    de forma individual {representando la traducción del código fuente escrito en
+    C++ a instrucciones específicas del procesador de la computadora en la que se
+    está compilando el código.}
+
+        #IMPORTANTE: en la terminal
+        #	1-> make, para crear .o		
+        #	2-> ./programa, para ejecutar 		CAMBIAR NOMBRE 'programa'
+        #	3-> make clean, es necesario limpiar y reiniciar .o para probar una nueva compilacion
+
+
+
+
+
+CLASES: 
+    OBJETOS
+        Stack
+        Queue
+        Node
+        DoublyLinkedList
+        Card 
+
+    CONTROLADORES
+        Shuffler
+        Printer
+        MovementDriver
+        CardCreator
+
+
+
+
+
+ESTRUCTURAS DE DATOS
+    1. Colas: 
+    Esta es una colección de elementos que sigue el principio de "primero en entrar, primero en salir" 
+    (FIFO, por sus siglas en inglés: First In, First Out). Esto significa que el primer elemento que 
+    se inserta en la cola es el primero en ser eliminado.
+
+    2. Pilas
+    Sigue el principio "primero en entrar, primero en salir" (FIFO, por sus siglas en inglés: First In, 
+    First Out). Esta estructura es similar a una fila en la vida real, donde el primero que llega es 
+    el primero en ser atendido o procesado.
+
+    3. Listas doblemente enlazadas
+    Este consta de nodos enlazados entre sí de forma bidireccional. Cada nodo contiene dos enlaces, 
+    uno apuntando al nodo anterior (previo) y otro al siguiente (siguiente) en la lista. Esto permite 
+    recorrer la lista en ambas direcciones: hacia adelante (del primer al último nodo) y hacia atrás 
+    (del último al primer nodo).
+    

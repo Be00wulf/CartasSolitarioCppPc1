@@ -1,0 +1,130 @@
+    MANUAL DE USUARIO                                        JUEGO: SOLITARIO
+    MARIA JOSE BAQUIAX RODRIGUEZ                          ESTRUCTURA DE DATOS
+    201831422                               CUNOC-USAC-INGENIERIA EN SISTEMAS
+
+Se realiza un juego de cartas solitario el cual cumple con las funcionalidades de:
+
+
+TABLERO INICIAL
+    Justo como en el juego clasico, se utilizan 52 cartas entre partida, 28 se reparten
+    alatoriamente en el tablero y 24 en el mazo sin descubrir, de la siguiente manera:
+
+
+    1       2         3       4         5        6       7   
+ [-   ] [    ]               [<3R<3] [<>R<>] [E3NE3] [!!N!!]  0
+                    
+                    
+                    
+                    
+ [8NE3]   [-   ]   [-   ]   [-   ]   [-   ]   [-   ]   [-   ] 1
+                   
+                   
+                   
+                   
+          [JR<3]   [-   ]   [-   ]   [-   ]   [-   ]   [-   ] 2
+                         
+                         
+                         
+                         
+                   [5NE3]   [-   ]   [-   ]   [-   ]   [-   ] 3
+                               
+                               
+                               
+                               
+                            [JR<>]   [-   ]   [-   ]   [-   ] 4
+                                     
+                                     
+                                     
+                                     
+                                     [JN!!]   [-   ]   [-   ] 5
+                                           
+                                           
+                                           
+                                           
+                                              [8R<3]   [-   ] 6
+                                                 
+                                                 
+                                                 
+                                                 
+                                                       [QR<>] 7
+
+
+    28 cartas se apilan dentro de 7 pilas, se utilizan listas doblemente
+    enlazadas para representar las pilas de cartas.
+
+    El resto de cartas (24) se utilizan dentro de una cola, donde al inicio, 
+    no debe verse ninguna carta.
+
+    Settienen 4 espacios donde deben irse agregando los 4 tipos de cartas
+    del mazo en pila de forma ascendente (desde A hasta K).
+
+
+
+
+REGLAS
+    Justo como en el juego clasico, se sigue la normativa siguiente:
+
+    PARA EL AREA DE PILAS
+        En el area secundaria debe colocarse dentro de cadaa pila, un 
+        valor   [A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K]
+        tipo    [<3, <>, E3, !!]
+        color   [N, R]
+
+        E; juego finaliza cuando todas las cartas esten en esta seccion
+        en ese orden.
+
+    PARA EL AREA PRINCIPAL
+        En el area principal no deben colocarse cartas de un mismo color 
+        consecutivamente, debe ser de la forma
+        N R N R N R
+        Sin importar si son
+        <3 <> E3 !!
+        Es importante el orden descendernte 
+        K Q J 10 9 8 7 6 5 4 3 2 A
+        
+    PARA EL AREA DE COLAS 
+        Se pueden realizar movimientos de las colas hacia el area principa
+        tantas veces se requiera.
+
+        Se pueden ir descubriendo cartas de esta seccion tantas veces se
+        requeira.
+
+
+
+
+
+JUEGO
+    Para los movimientos se realizara un menu el cual indica las posibles
+    jugadas del jugador
+
+    
+    BIENVENIDO AL JUEGO SOLITARIO
+    1. Voltear una carta de la cola de cartas comodin.                              
+    2. Sacar una carta de la cola y colocarla en el tablero principal.
+    3. Mover una carta entre las listas del tablero principal.
+    4. Mover una carta del tablero principal a una pila.
+    5.Salir
+    Seleccione una opcion
+    
+    cherry@192:~/Documents/PruebasEnCpp/Punteros/PRUEBAS/prueba4prlb$ 
+
+        FUNCIONES DEL menu  
+            1. Voltear una carta de la cola de cartas comodin: descubre 
+            una a una las cartas de la cola para que pueda ser usada en
+            el tablero principal
+
+            2. Sacar una carta de la cola y colocarla en el tablero principal:
+            Mueve solamente la carta descubierta de la cola de cartas al tablero
+            principal, si se le permite en el orden establecido, recibira la carta
+
+            3. Mover una carta entre las listas del tablero principal:
+            Permite mover de un lado a otro las cartas, si le es permitido pot el 
+            orden preestablecido.
+
+            4. Mover una carta del tablero principal a una pila.
+            Segun el orden preestablecido, recibe una carta la pila correspindiente
+            al tipo de carta, del tablero primcipal.
+
+            5.Salir
+            Termina el juego.
+

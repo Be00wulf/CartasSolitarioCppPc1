@@ -48,6 +48,7 @@ T Queue<T>::remove(){
         delete node;                            //eliminamos el nodo actual
         return value;                           //retornamos el valor almacenado
     }
+    return NULL;
 }
 
 //peek                  TOMA Y DEVUELVE EL VALOR DE LA CIMA DE LA COLA
@@ -56,6 +57,7 @@ T Queue<T>::peek() {
     if(!this->isEmptyQueue()){          //si la cola no esta vacia    
         return header->getValue();      //devuelve el valor contenido dentro del nodo apuntado por header
     }
+    return NULL;
 }
 
 // isEmpty                  REVISAMOS SI LA COLA ESTA VACIA

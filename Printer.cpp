@@ -46,7 +46,7 @@ void Printer::print(Queue<Card*>* queue, Stack<Card*>* stack, DoublyLinkedList<S
 }
 
 void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalStacks){
-    string image;
+    string image = "";
     int row = 1;
     stack1 = principalStacks->get(0);
     stack2 = principalStacks->get(1);
@@ -92,12 +92,12 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
                          
                 if(!stack->isEmpty()){
                     if(stack->peek()->isHide()){
-                        image = image + "   " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas
+                        image = image + "  " + this->createImage(i, 0, "-"); //3 mas -        0 espacios entre cartas  ->4->6->2
                     }
                  
                     else{
                         card = stack->peek();       
-                        image = image + " " + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
+                        image = image + this->createImage(i, card->getType(), card->getValue());  // 1* espacio dela pared inicio
                     }   
                     if(i == 5){
                         card = stack->pop();
@@ -110,7 +110,7 @@ void Printer::printPrincipalStacks(DoublyLinkedList<Stack<Card*>*>* principalSta
             }
             //VALOR R           
             if(i == 1){    
-                image = image + " " + std::to_string(row) +  "\n"; //2      ->1     espacio entre la carta y la columna de numeros final
+                image = image + "  " + std::to_string(row) +  "\n"; //2      ->1  ->2   espacio entre la carta y la columna de numeros final
                 row++;
             }
             else{      
@@ -166,26 +166,26 @@ void Printer::printQueuesAndSecondaryStacks(Queue<Card*>* queue, Stack<Card*>* s
                     }
                 }
             }
-            //3312      [2*]espacios dentro  tenia[1]    SEPARACION DE LA PARED INICIAL
-            img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero
+            //3312      [2*]espacios dentro  tenia[1]    SEPARACION DE LA PARED INICIAL 
+            img = img + "  " + this->createImage(i, card->getType(), card->getValue());      //agregamos la primera cola de cartas al tablero
         }
         //3312
-        img = img + "              ";      //separando colas de pilas 7->14
+        img = img + "            ";      //separando colas de pilas 7->14*->12
         
-        //Pilas secundarias PILAS
+//Pilas secundarias PILAS
         for(int j = 0; j < secondaryStacks->size(); j++){           
             card = secondaryStacks->get(j)->peek();             //obteniendo la carta de la cima de la pila secundaria actual
             //3312
-            img = img + " " + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero TIENEN[1]   PASA A [4]
+            img = img  + this->createImage(i, card->getType(), card->getValue());      //agregamos las pilas de cartas al tablero 
         }
 
         if(i == 1){                                     //agregando el indicador de las filas 0
-            img = img + "  0\n";
+            img = img + "0\n";
         }
         else{
 //           //img = img;
             //3312
-            img = img + "\n";               //agregando salto de linea
+            img = img + " \n";               //agregando salto de linea         +_
         }
 
     }
@@ -198,31 +198,26 @@ string Printer::createImage(int part, int type, string value){
     switch (type){
         case 0:
             this->type = "  ";
-            //this->color = "\x1B[30m";
-            this->color = " ";      //para los ocultos ?
+            this->color = " ";      //para los ocultos 
         break;
         
         case 1:
             this->type = "<3";
-            //this->color = "\x1B[31m";
             this->color = "R";
         break;
 
         case 2:
             this->type = "<>";
-            //this->color = "\x1B[31m";
             this->color = "R";
         break;
 
         case 3:
             this->type = "E3";
-            //this->color = "\x1B[30m";
             this->color = "N";
         break;
 
         case 4:
             this->type = "!!";
-            //this->color = "\x1B[30m";
             this->color = "N";
         break;
     }
@@ -232,18 +227,14 @@ string Printer::createImage(int part, int type, string value){
 
         case 0:
             img = "["+this->type +  color + "   ]"+ endColor;;  
-            //img = color + "["+this->type+"   ]" + endColor;           //P2
-            //img = color + "["+this->type+  value   + color +            "   ]" + endColor;        //P1
         break;
 
         case 1:
             if(value.compare("10") == 0 || value.compare("<3") == 0 || value.compare("<>") == 0 || value.compare("E3") == 0 ||value.compare("!!") == 0){
                 img = "["+ value +  color  + this->type + "]"+ endColor;;
-                //img = color + "["+ value + " " + this->type + "]" + endColor;
             }
             else{
                 img = "["+ value +  color  + this->type + "]"+ endColor;;
-                // img = color + "["+ value + " " + this->type + "]" + endColor;
             }
         break;
 

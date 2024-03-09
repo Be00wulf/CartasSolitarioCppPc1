@@ -37,4 +37,4 @@ class Printer {
         Stack<Card*>* auxiliarStack7 = new Stack<Card*>;;
         Queue<Card*>* auxiliarQueue = new Queue<Card*>;;
 };
-#endif /* PRINTER_HPP */
+#endif /* PRINTER_H */

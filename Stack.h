@@ -42,6 +42,7 @@ T Stack<T>::pop(){
         delete node;                        //eliminando nodo actual pa liberar memoria
         return value;                       //retornando valor almacenado
     }
+    return NULL;
 }
 
 //peek                      OBTENER Y DEVOLVER EL VALOR CONTENIDO EN LA CIMA DE LA PILA
@@ -50,6 +51,7 @@ T Stack<T>::peek(){
     if(!this->isEmptyStack()){          //pia vacia
         return this->top->getValue();       //valor dentro del nodo que es apuntado por top
     }
+    return NULL;
 }
 
 //isEmpty                                   PILA VACIA

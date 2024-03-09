@@ -107,6 +107,7 @@ T DoublyLinkedList<T>::getFirst(){
     if(!this->isEmptyList()){                   //si la lista no esta vacia
         return this->header->getValue();        //retornamos el valor almacenado en el primer nodo, referenciado por el header 
     }
+    return NULL;
 }
 
 //getLast                   DEVUELVE EL VALOR DEL NODO AL FINAL DE LA LISTA
@@ -115,6 +116,7 @@ T DoublyLinkedList<T>::getLast(){
     if(!this->isEmptyList()){                   //si l alista no esta vacia
         return this->end->getValue();           //devuelve el valor almacenado en el ultimo nodo, referenciado por end
     }
+    return NULL;
 }
 
 //get           DEVUELVE EL VALOR CONTENIDO DEL NODO DONDE EL INDICE SE RECIBE COMO PARAMETRO
@@ -131,6 +133,7 @@ T DoublyLinkedList<T>::get(int index){
             }
         }      
     }
+    return NULL;
 }
 
 //indexOf           OBTIENE EL INDICE DEL NODO CUYO VALOR SEA IGUAL AL QUE SE RECIBE COMO PARAMETRO
